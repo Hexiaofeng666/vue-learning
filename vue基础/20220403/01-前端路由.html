@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- <script src='vue3.js'></script> -->
+    <style>
+        #view {
+            width: 800px;
+            height: 600px;
+            border: solid 1px black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='view'>
+
+    </div>
+</body>
+<script>
+    /*
+        url地址分为6部分：协议、ip（域名）、端口号、路径、参数、哈希值
+        哈希值：url中第一个#后面的都是这个url的哈希值。
+
+        url中的哈希值是给前端浏览器使用的，最初，浏览器能够使用hash实现页面锚点
+        hash仅作为前端浏览器的参考，当浏览器根据一个url向服务器发送一个请求时，
+        哈希值是不会发送的。html5之后，流行单页网站，整个页面只有一个页面，这个页面实际上包含了多个页面
+        但是只显示一个。根据hash值的不同，显示不同的页面，这种通过url地址切换页面的方式叫做前端路由
+        当url发生变化的时候，页面要跳转，但是仅有hash值发生变化时，页面不会跳转
+    */
+
+    let tplObj = {
+        home: `<h1>我是首页页面</h1>
+            <ul>
+                <li><a href='#home'>首页</a></li>
+                <li><a href='#setting'>设置</a></li>        
+            </ul>
+       `,
+        setting: `<h1>我是设置页面</h1>
+            <ul>
+                <li><a href='#home'>首页</a></li>
+                <li><a href='#setting'>设置</a></li>        
+            </ul>
+       `
+    }
+
+    var view = document.getElementById('view')
+
+    //    当页面url的哈希值发生变化时触发事件
+    window.onhashchange = function (e) {
+        // indexOf 表示返回子字符串在原字符串首次出现的位置，如果没有找到，则返回-1
+        let ind = e.newURL.indexOf('#') //indexof返回首次出现的下标
+
+        let hash = e.newURL.substr(ind + 1)
+        console.log(hash); //截取出来的就是我们url的hash地址
+
+        // 当页面的url哈希值发生变化的时候，根据hash值的不同，在视图中显示不同的页面
+        // 从而实现一个地址对应一个页面，这种地址对应页面的路由方式就是前端路由。
+        // 获取对象属性，有两点方式，一种打点调用，一种是下标调用
+        view.innerHTML = tplObj[hash] //hash：home（首页） setting（设置）
+    }
+    // 锚点的原理就是a标签，可以用来跳转，我们vue中的路由虽然有几种，但是最终都解析成了a标签
+
+    view.innerHTML = tplObj.home
+</script>
+
+
+</html>

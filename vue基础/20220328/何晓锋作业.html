@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+    <script src="./jquery.min.js"></script>
+    <style>
+        #app>* {
+            margin-bottom: 10px;
+        }
+
+        #app>*>span:nth-of-type(1) {
+            font-weight: bolder;
+        }
+
+        #app>div>span:nth-of-type(2) {
+            color: blue;
+        }
+
+        #app>div>span:nth-of-type(2)>span {
+            margin: 0 5px;
+        }
+
+        #app>section>span:nth-of-type(2)>span {
+            border: 1px solid orange;
+            padding: 3px;
+            margin-right: 20px;
+        }
+
+        #app>section>span:nth-of-type(2)>span>button {
+            background: orange;
+            color: white;
+            padding: 0 5px;
+        }
+
+        .checked {
+            background-color: skyblue;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <template v-for="(item,index) in list" :key="index">
+            <com :goods="item" :ref="'box' + index" @additem="additem"></com>
+        </template>
+        <section>
+            <span>您已选择：</span>
+            <span id="content">
+                <!-- <span>小米 <button @click="delitem($event)">X</button> </span>
+                <span>1-499</span> -->
+                
+            </span>
+            <button @click="clear">清空</button>
+        </section>
+    </div>
+</body>
+<script type="text/html" id="com">
+    <div>
+        <span>{{goods.title}} :</span>
+        <span>
+            <template v-for="(item,index) in goods.content" :key="index">
+
+                <span @click="additem(goods.id,item,$event)">
+                    {{item}}
+                </span>
+
+            </template>
+        </span>
+
+    </div>
+</script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                list: [{
+                        id: 1,
+                        title: '品牌',
+                        content: ['苹果', '小米', '华为','联想','中兴', '夏新', '海信', '酷派', 'DELL', 'HTC', '索尼', '索尼爱立信', '三星', '诺基亚', '海尔', 'TCL', '飞利浦', '摩托罗拉', '黑莓','LG','爱国者','天语','英华达','长虹' ]
+                    },
+                    {
+                        id: 2,
+                        title: '价格范围',
+                        content: ['1-499', '500-999', '1000-1999', '2000-2999', '3000-4999', '5000以上']
+                    },
+                    {
+                        id: 3,
+                        title: '操作系统',
+                        content: ['ios', '安卓', '塞班', '百度易平台']
+                    },
+                    {
+                        id: 4,
+                        title: '优惠活动',
+                        content: ['存话费送手机', '买手机送话费', '老用户优惠购机(支持合约到期提前续约)', '只买手机', '分期付款']
+                    },
+                    {
+                        id: 5,
+                        title: '特点',
+                        content: ['双卡双待', '千元智能机', '大屏(4.0寸以上)']
+                    }
+                ]
+            }
+        },
+        created() {},
+        methods: {
+
+            additem(arr) {
+                // console.log(document.querySelector('#item'+arr[0])==null);
+                if (document.querySelector('#item' + arr[0]) == null) {
+                    // document.querySelector('#content').innerHTML += '<span id=item' + arr[0] + '>' + arr[1] + ' <button @click="delitem($event)">X</button> </span>'
+                    document.querySelector('#content').innerHTML += '<span id=item' + arr[0] + '>' + arr[1] +
+                        ' <button >X</button> </span>'
+                } else {
+                    document.querySelector('#content').removeChild(document.querySelector('#item' + arr[0]))
+                    document.querySelector('#content').innerHTML += '<span id=item' + arr[0] + '>' + arr[1] +
+                        ' <button >X</button> </span>'
+                }
+            },
+            delitem(e) {
+                // console.log(e.currentTarget.parentElement);
+                // console.log(666);
+                // document.querySelector('#content').removeChild(e.currentTarget.parentElement)
+            },
+            clear(){
+                document.querySelector('#content').innerHTML=''
+                // 清空样式
+                document.querySelectorAll('.checked').forEach(element => {
+                    element.classList.remove('checked')
+                });
+                // console.log(num);
+            }
+        },
+        computed: {},
+        mounted() {
+            mymounted: {
+                // 事件代理，因为vue是先渲染，这就导致了直接绑在标签上的方法没法用
+                $('#content').on('click', 'button', function ($event) {
+                    let myid = $event.currentTarget.parentElement.id.slice(4,5)
+                    console.log(myid);
+                    document.querySelector('#content').removeChild($event.currentTarget.parentElement)
+                    document.querySelector('#app>div:nth-of-type('+ myid +') .checked').classList.remove('checked')
+                })
+            }
+        },
+    })
+    app.component('com', {
+        template: '#com',
+        props: ['goods'],
+        methods: {
+            additem(str1, str2, str3) {
+                for (let index = 0; index < str3.target.parentElement.children.length; index++) {
+                    // console.log(str3.target.parentElement.children[index]);
+                    str3.target.parentElement.children[index].classList.remove('checked')
+                }
+                // console.log(str3.target.parentElement.children.length);
+                str3.target.classList.add('checked')
+                this.$emit('additem', [str1, str2])
+            }
+        },
+    })
+    app.mount('#app')
+</script>
+
+</html>

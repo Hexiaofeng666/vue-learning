@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <h1> {{ obj.name }} -- {{ obj.age }} </h1>
+     <ul>
+         <li v-for="(item, index) in arr" :key="index">{{ item }}</li>
+     </ul>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+
+
+        setup(props, context) {
+
+            // readonly: 让数据为只读数据不能更改
+            const { ref,reactive, readonly } = Vue
+
+            let obj = readonly({name: '张三',age: 18})
+            let arr = readonly(['vue','jQuery'])
+
+            setTimeout(()=>{
+                obj.age = 20
+                arr.push('react')
+            },3000)
+
+            return {
+                obj,
+                arr
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <card :count="num"></card>
+     <card></card>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                num: 10
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.component('card',{
+        // 单向数据流
+        // 父组件像子组件传递了一个 count 
+        // 子组件只有使用权，没有修改权
+        template: `<h1>
+                <p>{{ counts }}</p>
+                <button @click='counts++'> 求点击 </button>
+            </h1>`,
+        data() {
+            return {
+                // 先将父组件传递过来的 count 接收后复制一份给 counts 
+                // 如果父组件中没有传递任何值，那么我们就给一个默认值为 0
+                // 因为我们的 counts 是自己组件中的变量所以我们可以修改
+                // counts 的值
+                counts: this.count || 0
+            }
+        },
+        props: ['count']
+    })
+    app.mount('#app')
+</script>
+</html>

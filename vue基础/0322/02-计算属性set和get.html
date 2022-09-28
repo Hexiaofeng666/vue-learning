@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+    <p> 天祥的出生年份：{{ birthYear }} 年 </p>
+    <!-- 通过计算属性，得出天祥的年龄 -->
+    <p> 天祥的年龄：{{ age }} 岁 </p>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                birthYear: 2000
+            }
+        },
+        created(){},
+        methods:{},
+        // 计算属性放在 computed
+        computed:{
+            // 该写法只能读不能改，age 为只读属性
+            // age(){
+            //     // 年龄 = 当前年份 - 出生年份
+            //     return new Date().getFullYear() - this.birthYear
+            // }
+            // 我们如果要让这个属性可以进行读取和设置，那么我们
+            // 写法就需要改为对象的形式
+            // 该 age 对象中有两个函数
+            // 一个是 get 用来读数据的
+            // 一个是 set 用来写入数据的
+            age: {
+                get(){
+                    return new Date().getFullYear() - this.birthYear
+                },
+                // 写入数据
+                set(value){
+                    // 写入数据的时候，将要写入的数据处理一下
+
+                    console.log(value);
+                    this.birthYear = new Date().getFullYear() - value
+                }
+            }
+        },
+    }).mount('#app')
+
+    setTimeout(()=>{
+        // 通过修改出生年份，来获取最新的年龄
+        // app.birthYear = 2001
+        // 获取最新年龄，页面也会随着数据改变
+        // console.log(app.age);
+
+        // 通过设置年龄来显示我们出生的年份
+        // app.age = 18 //"age" is readonly 该属性是只读的不能设置
+
+
+        // 在设置了 get 和 set 方法后，此问题得到解决，这里设置
+        // 值的时候不需要自己调用 set 方法，它会自动去识别咱们获取还是设置
+        app.age = 18
+
+    },3000)
+</script>
+</html>

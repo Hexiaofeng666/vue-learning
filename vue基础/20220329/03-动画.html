@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            color: white;
+            position: absolute;
+        }
+        .bounce-enter-active {
+            animation: bounce-in 1s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in 1s reverse;
+        }
+        @keyframes bounce-in {
+        0% {
+            /* transform: scale(0); */
+            left: 0;
+        }
+        50% {
+            /* transform: scale(1.25); */
+        }
+        100% {
+            /* transform: scale(1); */
+            left: 100%;
+        }
+        }
+
+    </style>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+    <button @click="show = !show">切换</button>
+    <transition name="bounce">
+      <p v-if="show">
+        人生只有两条路，一条是错误，一条是辛苦的。
+      </p>
+    </transition>
+    <!-- transition-group 过渡组,动画组 -->
+    <!-- <transition-group name="bounce">
+        <p v-if="show">
+            人生只有两条路，一条是错误，一条是辛苦的。
+          </p>
+          <p v-if="show">
+            人生只有两条路，一条是错误，一条是辛苦的。
+          </p>
+    </transition-group> -->
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                show: true
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

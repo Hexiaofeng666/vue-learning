@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <div v-if="isShow">万事开头难</div>
+     <div v-else>开了头更难</div>
+     <button @click="isShow = !isShow">切换isShow</button>
+
+     <div v-if="classList='h5-2109'">你们长得很好看，笑起来像春天的花一样</div>
+     <!-- v-if,v-else-if和v-else不允许有其他标签 -->
+     <div v-else-if="'h5-2020'">你们长得一般</div>
+     <div v-else>你们长得这都是啥啊</div>
+
+     <!-- 如果需要切换显示多个元素时，可以使用template组件标签，它不会被渲染出来 -->
+     <template v-if="isShow">
+        <h1>大标题</h1>
+        <h2>二级标题</h2>
+        <p>这个是内容部分</p>
+     </template>
+
+     <template v-if="seen">
+        <span>用户名登录</span>
+        <input type="text" placeholder="请输入用户名">
+    </template>
+    <template v-else-if="!seen">
+       <span>手机号登录</span>
+       <input type="text" placeholder="请输入手机号">
+   </template>
+
+   <!-- 不能在template上使用v-show -->
+   <template v-show="isShow">
+       <h1>感情就像成年人的牙齿</h1>
+       <h2>掉了他就没了</h2>
+       <h3>再装也是假的</h3>
+   </template>
+   <br>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                isShow:true,
+                classList: 'h5-2109',
+                seen:true
+            }
+        },
+        created(){},
+        methods:{
+            
+        },
+        computed:{},
+    }).mount('#app')
+</script>
+</html>

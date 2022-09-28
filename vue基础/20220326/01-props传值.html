@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+    <!-- 父组件属性传值第一步 -->
+    <!-- :msg 自定义的接收属性，后面的message是父组件中的数据 -->
+    <!-- :is-show 属性名有多单词的情况下，我们需要使用 - 连接 -->
+     <!-- <card 
+     :msg="message" 
+     :num="666" 
+     :is-show="true" 
+     :nums="nums" 
+     :obj="persons[0]" 
+     :all="{
+        message,
+        num: 666,
+        isshow: true,
+        nums
+     }"
+     ></card> -->
+
+
+     <com v-for="(pro, index) in persons" :key="index" :pro="pro" ></com>
+</div>
+</body>
+<script type="text/html" id="card">
+    <div>
+        <h1> 啊哈哈哈 
+            {{ message }} 
+            {{ msg }}
+            {{ num }}
+            {{ isShow }}
+            <!-- 
+                使用的时候 is-show 这种写法是不可用的，系统会错误理解为 is - show
+                应该使用驼峰命名
+             -->
+            <p v-if="isShow"> 梦想从哪里实现 </p>
+            <p> {{nums}} </p>
+            <p>
+                {{ obj }}
+            </p>
+            <p>
+                {{all}}
+            </p>
+        </h1>
+    </div>
+</script>
+<script type="text/html" id="com">
+    <div>
+        {{ pro }}
+    </div>
+</script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                // 父组件中的数据
+                title: '大标题',
+                message: '小猛给我一个关注',
+                persons: [
+                    {
+                        title: '小郭的个人介绍',
+                        name: '郭小南',
+                        age: 18,
+                        phone: 15858885888,
+                        job: '前端开发工程师'
+                    },
+                    {
+                        title: '小猛的个人介绍',
+                        name: '刘小猛',
+                        age: 28,
+                        phone: 15888888888,
+                        job: '前端开发工程师'
+                    }
+                ],
+                nums: [1,2,3,4,5,6,7,8]
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.component('card',{
+        template: '#card',
+        data(){
+            return {
+                // 子组件中的数据
+                message: '小郭给我一个关注'
+            }
+        },
+        // 父组件传值，子组件接收 第二步
+        props: ['msg','num','is-show','nums','obj','all']
+    })
+
+
+    app.component('com',{
+        template: '#com',
+        // 父组件传值，子组件接收 第二步
+        props: ['pro']
+    })
+
+    app.mount('#app')
+</script>
+</html>

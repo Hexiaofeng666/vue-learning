@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            user-select: none;
+        }
+        .cell,.footer {
+            margin-top: 15px;
+        }
+        .cell span {
+            padding: 5px 10px;
+            color: #007acc;
+            cursor: pointer;
+        }
+        .cell span.active {
+            color: white;
+            background-color: pink;
+        }
+        .footer > span {
+            padding: 5px 10px;
+            background-color: orange;
+            color: white;
+            margin-right: 10px;
+        }
+        .footer > span > i{
+            background-color: red;
+            padding: 0 9px 0 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+    <template v-for="(item,key, index) in dataObj" :key="key">
+        <cell :item="item" @set="setXZ" :ref="key"></cell>
+    </template>
+
+    <my-footer :data="xz" @reset="reset"></my-footer>
+    
+</div>
+</body>
+<script type="text/html" id="cell">
+    <div class="cell">
+        <strong> {{ item.title }}： </strong>
+        <template v-for="(name, index) in item.data" :key="index">
+            <span v-if="index == num" @click="activeClick(index,name)" class="active">{{ name }}</span>
+            <span v-else @click="activeClick(index,name)">{{ name }}</span>
+        </template>
+    </div>
+</script>
+<script type="text/html" id="footer">
+    <div class="footer">
+        <strong> 您已选择： </strong>
+        <template v-for="(value, key, index) in data" :key="index">
+            <span v-if="value != ''"> {{ value }} <i @click="delClick(key)">X</i> </span>
+        </template>
+        
+    </div>
+</script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                dataObj: {
+                    pp: {
+                    title: '品牌',
+                    data: ['苹果','小米','华为','联想','中兴','海信','索尼','三星','诺基亚','海尔','黑莓','天语']
+                },
+                jg: {
+                    title: '价格',
+                    data: ['100-499','500-999','1000-1999','2000-2999','3000-3999','4000-4999','5000-5999']
+                },
+                xt: {
+                    title: '系统',
+                    data: ['iOS','安卓','鸿蒙','塞班']
+                },
+                hd: {
+                    title: '活动',
+                    data: ['充话费送手机','买手送话费','只买手机','只充话费','分期付款']
+                },
+                td: {
+                    title: '特点',
+                    data: ['双卡双待','千元智能机','大屏手机','高清摄像头','自拍超美']
+                }
+                },
+                xz: {
+                    pp: '',
+                    jg: '',
+                    xt: '',
+                    hd: '',
+                    td: ''
+                }
+            }
+        },
+        created(){},
+        methods:{
+            setXZ(item){
+                if(item.title == '品牌'){
+                    this.xz.pp = item.name
+                }else if(item.title == '价格'){
+                    this.xz.jg = item.name
+                }else if(item.title == '系统'){
+                    this.xz.xt = item.name
+                }else if(item.title == '活动'){
+                    this.xz.hd = item.name
+                }else if(item.title == '特点'){
+                    this.xz.td = item.name
+                }
+            },
+            reset(key) {
+                this.xz[key] = ''
+                // 删除后，找到对应组件，将对应组件上 num 属性设置为非数字
+                console.log(this.$refs[key][0].num);
+                this.$refs[key][0].num = '老吴'
+            }
+        },
+        computed:{},
+    })
+
+    // 子组件
+    app.component('cell', {
+        template: '#cell',
+        props: ['item'],
+        data() {
+            return {
+                // 记录被点击的元素
+                num: 'a'
+            }
+        },
+        methods: {
+            activeClick(index,name){
+                console.log('被点击了' + index + name)
+                // 记录被点击的元素
+                this.num = index
+                // 找到被点击的文本内容
+                // 将被点击的内容传递到父组件中
+                this.$emit('set',{
+                    name,
+                    title: this.item.title
+                })
+            }
+        }
+    })
+
+    // 子组件
+    app.component('my-footer',{
+        template: '#footer',
+        props: ['data'],
+        methods: {
+            delClick(key){
+                console.log(key);
+                this.$emit('reset',key)
+            }
+        }
+    })
+
+    app.mount('#app')
+</script>
+</html>

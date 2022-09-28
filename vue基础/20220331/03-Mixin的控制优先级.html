@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <h1> {{ msg }} </h1>
+     <!-- 使用自定义属性 -->
+     <!-- 对于自定义属性而言，组件自身的优先级高于 mixin -->
+     <h1> {{ this.$options.aaa }} </h1>
+</div>
+</body>
+<script>
+
+    const myMixin = {
+        aaa: '你好Vue',
+        data() {
+            return {
+                msg: '床前明月光'
+            }
+        },
+    }
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: '地上鞋一双'
+            }
+        },
+        aaa: '幸福都是奋斗出来的',
+        mixins: [myMixin],
+        created(){},
+        methods:{},
+        computed:{},
+    })
+
+    app.config.optionMergeStrategies.aaa = (fromVal, toVal) => {
+        console.log(fromVal, toVal)
+        // => "goodbye!", undefined
+        // => "hello", "goodbye!"
+        // 先后顺序会决定谁的优先级更高
+        return toVal || fromVal
+        // return fromVal || toVal
+    }
+
+
+
+    app.mount('#app')
+</script>
+</html>

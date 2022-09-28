@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <box ref="box1"></box>
+     <box ref="box2"></box>
+     <box ref="box3"></box>
+     <button @click="getCom"> 获取子组件 </button>
+</div>
+</body>
+<script>
+
+
+    const Box = {
+        data() {
+            return {
+                message: '今天又下大雨了'
+            }
+        },
+        template: '<div> {{ message }} </div>'
+    }
+
+    const app = Vue.createApp({
+        data() {
+            return {}
+        },
+        components: {
+            'box': Box
+        },
+        created(){},
+        methods:{
+            getCom(){
+                // 父组件获取子组件
+                // 获取指定组件上的内容
+                console.log(this.$refs.box1.message);
+            }
+        },
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

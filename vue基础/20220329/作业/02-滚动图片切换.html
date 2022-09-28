@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .zoombox {
+            width: 686px;
+            margin: 50px auto;
+        }
+        .zoompic {
+            border: 1px solid red;
+            width: 684px;
+            height: 394px;
+            background: url(./images/loading.gif) no-repeat;
+            background-position: center;
+        }
+        .sliderbox {
+            height: 76px;
+            /* background-color: red; */
+            margin-top: 10px;
+        }
+        .arrow-btn {
+            width: 38px;
+            height: 76px;
+            background-image: url(./images/arrow-btn.png);
+            cursor: pointer;
+        }
+        #btnLeft {
+            float: left;
+        }
+        #btnRight {
+            float: right;
+            background-position: -38px 0;
+        }
+        .slider {
+            float: left;
+            width: 600px;
+            height: 76px;
+            position: relative;
+            overflow: hidden;
+            left: 5px;
+            top: 1px;
+        }
+        ul {
+            position: absolute;
+            width: 1200px;
+        }
+        li{
+            width: 120px;
+            float: left;
+            text-align: center;
+        }
+        /* 不能被点击的样式 */
+        .dasabled {
+            cursor: default;
+        }
+        #btnLeft.dasabled {
+            background-position: 0 -76px;
+        }
+        #btnRight.dasabled {
+            background-position: -38px -76px;
+        }
+        li img {
+            border: 1px solid white;
+        }
+        li.current img {
+            border-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="zoombox">
+        <!-- 上面的大图 -->
+        <div class="zoompic">
+            <img src="./images/3427.jpg" alt="">
+        </div>
+
+        <div class="sliderbox">
+            <div id="btnLeft" class="arrow-btn dasabled"></div>
+
+            <div class="slider">
+                <ul>
+                    <li class="current"><a href="images/3427.jpg"><img src="images/14fd.jpg" alt="" /></a></li>
+                    <li><a href="images/23463.jpg"><img src="images/234fa.jpg" alt="" /></a></li>
+                    <li><a href="images/3247.jpg"><img src="images/412saf.jpg" alt="" /></a></li>
+                    <li><a href="images/52347.jpg"><img src="images/41a.jpg" alt="" /></a></li>
+                    <li><a href="images/26547.jpg"><img src="images/41356a.jpg" alt="" /></a></li>
+                    <li><a href="images/2153.jpg"><img src="images/432sadf.jpg" alt="" /></a></li>
+                    <li><a href="images/3427.jpg"><img src="images/14fd.jpg" alt="" /></a></li>
+                    <li><a href="images/52347.jpg"><img src="images/41a.jpg" alt="" /></a></li>
+                    <li><a href="images/26547.jpg"><img src="images/41356a.jpg" alt="" /></a></li>
+                    <li><a href="images/23463.jpg"><img src="images/234fa.jpg" alt="" /></a></li>
+                </ul>
+            </div>
+
+            <div id="btnRight" class="arrow-btn"></div>
+        </div>
+    </div>
+    <script>
+
+        $('a').click(function(){
+            $('.zoompic img').fadeOut(100).fadeIn(100).attr({
+                src: $(this).attr('href')
+            })
+            // 将上一个小图的边框颜色改掉
+            $('li.current').removeClass('current')
+            // 将当前点击的添加上 class
+            $(this).parent().addClass('current')
+
+            // 阻止 a 标签的跳转，阻止默认事件
+            return false
+        })
+
+        // 记录当前被点击的次数
+        let sliderCount = 0
+        // 图片的个数
+        const imgCount = $('li').length
+
+        // 下一张切换
+        $('#btnRight').click(function(){
+
+            // 点到最后一张的时候不能继续点击了
+            if(sliderCount >= imgCount - 5){
+                return false
+            }
+
+            sliderCount++
+
+            $('ul').animate({
+                left: '-=' + $('li').width()
+            },300)
+
+            checkState()
+        })
+
+
+        $('#btnLeft').click(function () {  
+            if(sliderCount <= 0){
+                return false
+            }
+            sliderCount--
+            $('ul').animate({
+                left: '+=' + $('li').width()
+            },300)
+
+            checkState()
+        })
+
+        // 检查每次点击后处于什么状态
+        function checkState() {
+            console.log(sliderCount);
+            // 当前是最后一张
+            if(sliderCount >= imgCount - 5){
+                // alert('最后一张')
+                $('#btnRight').addClass('dasabled')
+            }
+            // 当前是第一张
+            else if(sliderCount <= 0){
+                $('#btnLeft').addClass('dasabled')
+            }
+            // 处于中间的时候
+            else {
+                $('#btnRight').removeClass('dasabled')
+                $('#btnLeft').removeClass('dasabled')
+            }
+        }
+
+    </script>
+</body>
+
+</html>

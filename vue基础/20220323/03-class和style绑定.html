@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+<style>
+    .red{
+        color: red;
+    }
+</style>
+</head>
+<body>
+<div id='app'>
+     <!-- 1.绑定属性 -->
+     <!-- :冒号是v-bind的简写 -->
+     <h1 :title="message" :class="classStr">梦想，从这里起航--</h1>
+
+     <!-- 2.通过对象来绑定class -->
+     <!-- 如果该标签已经有class属性了，那么会将其合并 -->
+     <h1 class="abc" :class="classObj">通过对象绑定class</h1>
+     <button @click="classObj.red=!classObj.red">切换样式</button>
+     <!-- 3.通过数组来绑定class -->
+     <h1 :class="classArr">通过数组绑定class</h1>
+
+     <!-- 4.通过对象绑定style -->
+     <h1 :style="styleObj">通过对象绑定style</h1>
+
+     <!-- 5.通过数组绑定style -->
+     <h1 :style="[styleObj,styleObj2]">通过数组绑定style</h1>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                message:'这是一个超级无敌大的标题',
+                classStr: 'red',
+                classObj:{
+                    // 使用属性名就是对应的class名
+                    // 对应的值是一个布尔值，为true的时候会添加该class
+                    // 为false将其移除不添加
+                    red:true
+                },
+                classArr:['red','abcd'],
+                styleObj:{
+                    color:'green',
+                    fontSize:'30px'
+                },
+                styleObj2:{
+                    'background-Color':'red'
+                }
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    }).mount('#app')
+</script>
+</html>

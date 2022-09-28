@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <!-- ref 就跟标签中的id是一样的，ref是组件的唯一标识符，不能重复 -->
+        <mycom ref="com1"></mycom>
+        <mycom ref="com2"></mycom>
+
+        <button @click="change">修改第二个</button>
+    </div>
+</body>
+<script type="text/html" id="com">
+    <h1>{{obj.name}}  说  {{message}}</h1>
+</script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {}
+        },
+        created() {},
+        methods: {
+            change(){
+                // 修改第二个组件中的数据
+                // 1.找到第二个组件
+                // vue主张尽量少地操作DOM元素
+                console.log(this.$refs);
+                // 不应该直接操作Dom，而是要操作相应的数据，否则将不具备响应式
+                // document.querySelectorAll('#app>h1')[1].innerHTML = '哈哈哈'
+
+                console.log(this.$refs.com2);
+                this.$refs.com2.obj.name = '小甘'
+                this.$refs.com2.message = '下次吃饭我们AAB，我'
+                this.$refs.com2.showMsg('哈哈哈')
+                console.log(this.$refs.com2.message);
+            }
+        },
+        computed: {},
+    })
+    app.component('mycom', {
+        template: '#com',
+        data() {
+            return {
+                message: '成年人的自由，不是你想干什么就干什么，而是你不想干什么就可以不干什么',
+                obj: {
+                    name: '小梦'
+                }
+
+            }
+        },
+        methods: {
+            showMsg(msg){
+                alert(this.message)
+                alert(msg)
+            }
+        },
+    })
+    app.mount('#app')
+</script>
+
+</html>

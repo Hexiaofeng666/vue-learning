@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+    <style>
+        #app>div{
+            border: 1px solid black;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        #app>div>div{
+            display: flex;
+            justify-content: space-between;
+        }
+        #app tr {
+            width: 100%;
+            display: flex;
+        }
+        #app img{
+            width: 30vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <row v-for="(item,index) in list" :key="index" :id="index"></row>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                list: [{
+                        title: '为什么要用表格',
+                        imgs: [
+                            'https://t7.baidu.com/it/u=801209673,1770377204&fm=193&f=GIF',
+                            'https://t7.baidu.com/it/u=801209673,1770377204&fm=193&f=GIF',
+                            'https://t7.baidu.com/it/u=801209673,1770377204&fm=193&f=GIF'
+                        ],
+                        atr: '我也不知道',
+                        timer: '1999-02-02'
+                    },
+                    {
+                        title: '还得用组件通信',
+                        imgs: [
+                            'https://t7.baidu.com/it/u=2621658848,3952322712&fm=193&f=GIF',
+                            'https://t7.baidu.com/it/u=2621658848,3952322712&fm=193&f=GIF',
+                            'https://t7.baidu.com/it/u=2621658848,3952322712&fm=193&f=GIF'
+                        ],
+                        atr: '这是啥',
+                        timer: '1999-02-02'
+                    },{
+                        title: '图片都没找',
+                        imgs: [
+                            'https://t7.baidu.com/it/u=334080491,3307726294&fm=193&f=GIF',
+                            'https://t7.baidu.com/it/u=334080491,3307726294&fm=193&f=GIF',
+                            'https://t7.baidu.com/it/u=334080491,3307726294&fm=193&f=GIF'
+                        ],
+                        atr: '随便吧',
+                        timer: '1999-02-02'
+                    }
+                ]
+            }
+        },
+        created() {},
+        methods: {},
+        computed: {},
+    })
+    app.component('row', {
+        methods: {
+            showmsg() {
+                console.log(this.$parent.list[this.id].imgs[0]);
+                console.log(this.id);
+            }
+        },
+        props: {
+            'id': Number
+        },
+        template: `
+        <div><h3>{{this.$parent.list[this.id].title}}</h3>
+            <table><tr>
+                <td v-for="(item,index) in this.$parent.list[this.id].imgs" :key="index"><img :src='item'></img></td>
+                </tr></table>
+            
+            <div><span>{{this.$parent.list[this.id].atr}}</span>
+            <span>发表于{{this.$parent.list[this.id].timer}}</span></div></div>
+            `
+    })
+    app.mount('#app')
+</script>
+
+</html>

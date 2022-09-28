@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue2路由</title>
+    <!-- vue2路由的源码版本要低于4.0和vue3的路由在某些api上面有一定的区别。 -->
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <!--使用 router-link 组件进行导航 -->
+            <!--通过传递 `to` 来指定链接 -->
+            <!-- router-link可以实现路由跳转，类似于a标签，其实最后也是解析成了a标签
+        to属性就相当于a标签的href属性 -->
+            <router-link to="/home">首页</router-link>
+            <router-link to="/list/tom">列表</router-link>
+        </p>
+        <!-- 路由出口 -->
+        <!-- 路由匹配到的组件将渲染在这里 -->
+        <!-- 路由所对应的页面内容会显示到该组件中 -->
+        <router-view></router-view>
+    </div>
+
+
+    <!-- vue模块使用2或者3都可以 -->
+    <script src="./js/vue2.js"></script>
+    <!-- 路由下载下来都是最新版本 -->
+    <!-- <script src="./js/vue-router.global.js"></script> -->
+    <script src="./js/vue-router.js"></script>
+
+    <!-- bootcdn.cn 该网站是最大的开源网站。里面收录了很多歌框架和插件的源码，这种在线引入的
+    既可以在实际开发中提高网站的性能，使用方便快捷，推荐使用，但是需要网络。 -->
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/3.5.0/vue-router.min.js"></script> -->
+    <script>
+        // 定义路由
+        const Home = {
+            template: `<h1>我是首页页面的内容1</h1>`
+        }
+
+        const List = {
+            // template里面只能有一个根标签
+            template: `<div><h1>我是页面列表内容</h1><p>{{name}}</p></div>`,
+
+            // 组件初始化的时候执行该函数。
+            created() {
+                // this.$route 可以通过该属性获取页面中传递的参数。
+                console.log(this.$route);
+
+                this.name = this.$route.params.name
+            },
+
+            data() {
+                return {
+                    name: '你好吗'
+                }
+            },
+        }
+
+        // 配置路由规则/创建路由实例
+        // route router的区别是什么？？
+        const router = new VueRouter({
+            routes: [{
+                    path: '/home',
+                    component: Home
+                },
+                {
+                    path: '/list/tom',
+                    component: List
+                }
+            ]
+        });
+
+
+        // 创建vue实例
+        new Vue({
+            el: '#app',
+            // 把路由对象注入到根实例里面
+            // router:router
+            router
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+    <!-- ref 将指定属性添加在标签上 -->
+     <h1 ref="title"> 梦想，从这里启航。 </h1>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        setup(props) {
+            const { ref, onMounted } = Vue
+            const title = ref(null)
+
+            onMounted(() => {
+                title.value.style.color = 'red'
+                title.value.style.border = '1px solid green'
+            })
+
+            return {
+                title
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

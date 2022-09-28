@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <h1 @click="show"> myMixin 中的 count {{ count }} </h1>
+</div>
+<hr>
+<div id='bpp'>
+    <h1 @click="show"> myMixin 中的 count {{ count }} </h1>
+</div>
+</body>
+<script>
+
+    /*
+        mixin 是用来进行混入，合并对象用的
+        1. 实例中的 data,methods 之类的选项 优先级要高于 mixin 中定义的
+        2. 对于生命周期函数，会优先执行 mixin 中的，然后再执行实例中的
+    */ 
+
+    // 定义一个 mixin 对象
+    const myMixin = {
+        data() {
+            return {
+                count: 100
+            }
+        },
+        created() {
+            // 对于生命周期函数，混入的将会先被调用，然后再调用组件自身的
+            console.log('混入被调用了');
+        },
+        methods: {
+            show(){
+                alert('混入被调用了')
+            }
+        }
+    }
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                // 自身数据的优先级高于混入的
+                count: 99
+            }
+        },
+        // 放混合的地方
+        mixins: [myMixin],
+        created(){
+            console.log('app 被调用了');
+        },
+        methods:{
+            show(){
+                // 对于函数的调用 app 优先级更高
+                alert('app 被调用了')
+            }
+        },
+        computed:{},
+    })
+    app.mount('#app')
+
+// -------------------------------------------------
+
+const bpp = Vue.createApp({
+        data() {
+            return {
+                // 自身数据的优先级高于混入的
+                count: 99
+            }
+        },
+        // 放混合的地方
+        mixins: [myMixin],
+        created(){
+            console.log('bpp 被调用了');
+        },
+        methods:{
+            show(){
+                // 对于函数的调用 bpp 优先级更高
+                alert('bpp 被调用了')
+            }
+        },
+        computed:{},
+    })
+    bpp.mount('#bpp')
+
+</script>
+</html>

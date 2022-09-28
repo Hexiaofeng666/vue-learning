@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <div>{{before}} {{calc}}{{back}}={{res}}</div>
+        <div>
+            <button @click="btnClick('+')">+</button>
+            <button @click="btnClick('-')">-</button>
+            <button @click="btnClick('*')">*</button>
+            <button @click="btnClick('/')">/</button>
+            <button @click="btnClick('1')">1</button>
+            <button @click="btnClick('2')">2</button>
+            <button @click="btnClick('3')">3</button>
+            <button @click="btnClick('4')">4</button>
+            <button @click="btnClick('5')">5</button>
+            <button @click="btnClick('6')">6</button>
+            <button @click="btnClick('7')">7</button>
+            <button @click="btnClick('8')">8</button>
+            <button @click="btnClick('9')">9</button>
+            <button @click="btnClick('0')">0</button>
+            <button @click="calcClick">=</button>
+        </div>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                before: 0,
+                back: 0,
+                calc: '',
+                res: 0
+            }
+        },
+        created() {},
+        methods: {
+            btnClick(v) {
+                if (v == '+' || v == '-' || v == '*' || v == '/') {
+                    // 点击的是加减乘除
+                    this.calc = v
+                } else {
+                    // 点击的不是加减乘除
+                    if (!calc) {
+                        // 将数字拼接在before中
+                        this.before += v
+                    } else {
+                        this.back += v
+                        // 将数字拼接在back中
+                    }
+                }
+
+            },
+            calcClick() {
+                if (this.calc == '+') {
+                    this.res = (this.before * 1) + (this.back * 1)
+                }
+                if (this.calc == '-') {
+                    this.res = (this.before * 1) - (this.back * 1)
+                }
+                if (this.calc == '*') {
+                    this.res = (this.before * 1) * (this.back * 1)
+                }
+                if (this.calc == '/') {
+                    this.res = (this.before * 1) / (this.back * 1)
+                }
+
+            }
+        },
+        computed: {},
+    }).mount('#app')
+</script>
+
+</html>

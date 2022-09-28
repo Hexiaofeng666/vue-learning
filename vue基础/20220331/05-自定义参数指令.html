@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <h1 v-pin="{left: 100,top:200}"> 带自定义参数指令 </h1>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {}
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.directive('pin', {
+        mounted(el, binding) {
+            console.log(binding);
+            el.style.position = 'fixed'
+            // binding.value 是我们传递给指令的值——在这里是 200
+            el.style.top = binding.value.top + 'px'
+            el.style.left = binding.value.left + 'px'
+        }
+    })
+
+    app.mount('#app')
+</script>
+</html>

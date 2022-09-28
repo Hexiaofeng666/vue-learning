@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <box :title="title" style="background-color: red;width: 100px;height: 100px;"></box>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                title: '父组件中定义的 title'
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+
+    app.component('box', {
+        setup(props, context) {
+            // props 为父组件传递过来的值
+            // 此处包含title
+            console.log(props);
+            // context.attrs(获取当前标签上的所有属性的对象)
+            // 该属性是props中没有声明接收的所有的对象。
+            // 此处不包含title
+            console.log(context);
+
+            return {
+
+            }
+        },
+        template: `
+            <div :title='title' >
+                这是子组件 box 
+            </div>
+            <h1 v-bind='$attrs'> 哈哈哈哈哈哈哈 </h1>
+        `,
+        props: ['title']
+    })
+
+    app.mount('#app')
+</script>
+</html>

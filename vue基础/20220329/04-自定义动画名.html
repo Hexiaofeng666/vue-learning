@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./animated.css">
+    <script src='vue3.js'></script>
+    <style>
+        p {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            color: wheat;
+        }
+    </style>
+</head>
+<body>
+<div id='app'>
+    <button @click="show = !show"> 切换显示 </button>
+     <!-- https://www.dowebok.com/demo/2014/98/  -->
+    <transition
+        enter-active-class="animated tada"
+        leave-active-class="animated bounceOutRight"
+    >
+        <p v-if="show"> 你笑起来真好看 </p>
+     </transition>
+     
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                show: true
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

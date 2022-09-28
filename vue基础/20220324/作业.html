@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #content{
+            background-color: aqua;
+        }
+        #content li{
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <input type="text" v-model="inputtext" @keyup.enter="addlist()">
+        <button @click="addlist()">提交</button>
+        <div id="content">
+            <ul>
+                <li v-for="(item,index) in message" :key="index">
+                    {{item}}
+                    <button @click="del(index)">X</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                inputtext:'',
+                message: ['初始第一条数据','初始第二条数据']
+            }
+        },
+        created() {},
+        methods: {
+            addlist(){
+                this.message.push(this.inputtext)
+            },
+            del(num){
+                this.message.splice(num,1)
+            }
+        },
+        computed: {},
+    }).mount('#app')
+</script>
+
+</html>

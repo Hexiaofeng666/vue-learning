@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <h1>原价：{{price}}</h1>
+        <h1>现价：{{changeprice}}</h1>
+        <h1>VIP价格：{{VIPprice}}</h1>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                price: 100,
+                VIPprice:0
+            }
+        },
+        created() {},
+        methods: {},
+        // computed只有值发生变化才会执行方法,watch是监听观察动作,有改变就执行
+        computed: {
+            changeprice() {
+                // 计算属性无法支持异步操作
+                setTimeout(()=>{
+                    return this.price * 0.8
+                },2000)
+            }
+        },
+        watch: {
+            price(current, prev) {
+                // 侦听器支持异步操作
+                setTimeout(()=>{
+                    console.log(current, prev);
+                this.VIPprice = current * 0.5
+                },2000)
+            }
+            
+        }
+    }).mount('#app')
+    /*
+        计算属性：
+        1.运行起来会立即计算一次
+        2.计算属性可以监听多个属性(如果函数内数据比较多，或者代码量比较大的时候，会影响性能)
+        3.计算属性中无法使用异步操作
+
+
+        侦听器：
+        1.运行时不会自动计算一次，需要值改变时才会计算
+        2.侦听器只能监听一个属性
+        3.可以进行异步操作
+    */
+</script>
+
+</html>

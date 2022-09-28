@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <!-- 
+            @box-click监听的事件名，子组件要触发的就是这个事件
+            setmessage 是事件被触发后要执行的函数
+         -->
+        <box @box-click="setmessage"></box>
+    </div>
+</body>
+<!-- 子组件模板 -->
+<template id="box">
+    <div class="box">
+
+        <button @click="btnClick">求点击</button>
+    </div>
+</template>
+<script>
+    const Box = {
+        template: '#box',
+        setup(props, context) {
+            function btnClick() {
+                // alert('被点击了')
+                // 触发事件
+                // 将子组件的数据传递到父组件，组件通信
+                context.emit('box-click',{name: '张三',age:18})
+            }
+            return {
+                btnClick
+            }
+        }
+    }
+    const app = Vue.createApp({
+        data() {
+            return {}
+        },
+        created() {},
+        methods: {
+            setmessage(obj) {
+                console.log(obj);
+            }
+        },
+        computed: {},
+        components: {
+            'box': Box
+        }
+    })
+    app.mount('#app')
+</script>
+
+</html>

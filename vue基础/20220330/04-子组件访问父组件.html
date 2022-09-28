@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+    <h1> {{ title }} </h1>
+     <cell></cell>
+</div>
+</body>
+<script>
+
+    // 子组件
+    const Box = {
+        data() {
+            return {
+                count: 0
+            }
+        },
+        template: `
+            <button @click='btnClick'>{{ count }}</button>
+        `,
+        methods: {
+            btnClick(){
+                this.count++
+                // 获取父组件 cell 
+                // console.log(this.$parent)
+                // this.$parent.msg = '我还要和排骨汤'
+                // 修改父组件的父组件中的 title
+                // console.log(this.$parent.$parent)
+                // this.$parent.$parent.title = '去友力那吃火锅'
+
+                // 直接找到根组件
+                console.log(this.$root)
+                this.$root.title = '去友力那吃火锅 + 小吃'
+            }
+        }
+    }
+
+    // 父组件
+    const Cell = {
+        data() {
+            return {
+                msg: '中午我们可以吃蛋炒饭'
+            }
+        },
+        template: `
+            <div>
+                {{ msg }}
+                <box></box>
+            </div>    
+        `,
+        components: {
+            box: Box
+        }
+
+    }
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                title: '今天吃什么'
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+        components: {
+            cell: Cell
+        }
+    })
+    app.mount('#app')
+</script>
+</html>

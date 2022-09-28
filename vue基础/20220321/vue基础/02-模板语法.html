@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue3.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{message}}</h1>
+        <div>
+            <p> 点击次数： {{count}} </p>
+            <button @click="add">点击增加</button>
+            <!-- v-once该指令标记数据只能被绑定一次，绑定后数据无法再进行修改 -->
+            <p v-once> 点击次数2： {{count}} </p>
+        </div>
+        <!-- 
+            带有标签的字符串，渲染时无法解析标签，如果我们需要解析我们
+            可以使用指令标签v-html来完成标签的解析渲染
+
+         -->
+        <div v-html="message"></div>
+        <!-- 将数据直接渲染出来 -->
+        <div v-text="message"></div>
+
+        <button v-bind:disabled="isButtonDisabled">按钮</button>
+        <p>计算结果:{{count*2}}</p>
+        {{isButtonDisabled ?'真的':'假的'}}
+        <br>
+        <!-- attributename 动态绑定属性，注意不要使用大写字母 -->
+        <a v-bind:[attributename]="url">瞧一瞧</a>
+
+        <div>
+            <!-- v-if条件不成立时会直接移除标签 -->
+            <p v-if="isShow">使用v-if指令的p标签</p>
+            <!-- v-else和v-if中间不能有其他的标签，否则会出错 -->
+            <p v-else>使用v-else指令的p标签</p>
+            <!-- v-show条件不成立时设置一个display：none;  移除标签 -->
+            <p v-show="isShow">使用v-show指令的p标签</p>
+            <button v-on:click="isShow=!isShow">切换显示</button>
+
+            <!-- 
+                在标签切换显示不频繁时使用v-if更佳
+                在标签频繁被切换显示的时候使用v-show更佳
+             -->
+
+            <div>
+                <!-- .prevent用来阻止默认事件用的，同event.preventDefault()是一样的 -->
+                <a href="https://www.baidu.com" v-on:click.prevent="aClick">百度一下</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const app = {
+            data() {
+                return {
+                    message: '<h1>梦想，从Vue起航</h1>',
+                    count: 0,
+                    isButtonDisabled: true,
+                    attributename: 'href',
+                    url: 'http://www.baidu.com',
+                    isShow: true
+                }
+            },
+            methods: {
+                add() {
+                    this.count++
+                },
+                aClick() {
+                    // 阻止默认事件
+                    // event.preventDefault()
+                    window.location.href = "https://www.jd.com"
+                }
+            },
+        }
+        const vm = Vue.createApp(app).mount('#app')
+
+        console.log(vm.$data.count) // => 4
+        console.log(vm.count) // => 4
+
+        // 修改 vm.count 的值也会更新 $data.count
+        vm.count = 5
+        console.log(vm.$data.count) // => 5
+
+        // 反之亦然
+        vm.$data.count = 6
+        console.log(vm.count) // => 6
+    </script>
+</body>
+
+</html>

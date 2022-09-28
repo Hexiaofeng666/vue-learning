@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <div>
+        <label for=""> 品牌： </label>
+        <input type="text" placeholder="请输入品牌" v-model="brand">
+        <p> 输入的品牌是： {{ brand }} </p>
+        <hr>
+        <label for=""> 网址： </label>
+        <input type="text" placeholder="请输入网址" v-model="site">
+        <p> 输入的网址是： {{ site }} </p>
+     </div>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        setup(props) {
+            
+            // 导出侦听器
+            const { reactive, watch, ref, watchEffect } = Vue
+
+            let brand = ref('')
+            let site = ref('')
+
+            /*
+            // 侦听器 - 监听一个属性
+            watch(brand,(currentValue, prevValue)=>{
+                // 侦听器中的业务逻辑代码
+                console.log('现在值：' + currentValue);
+                console.log('原来值：' + prevValue);
+            },{
+                // 配置非惰性，false 是默认值有惰性
+                immediate: true,
+                    // state = {
+                    //     brand: '111',
+                    //     users: [{}]
+                    // }
+                // 配置深度监视
+                seep: true
+            })
+            */
+
+            // 非惰性，更加抽象现在函数内的变量都可以被监听到
+            // 不能访问之前的值
+            watchEffect(() => {
+                console.log(brand.value);
+                console.log(site.value);
+            })
+
+            return {
+                brand,
+                site
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

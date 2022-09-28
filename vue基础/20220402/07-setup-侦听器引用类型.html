@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <div>
+        <label for=""> 品牌： </label>
+        <input type="text" placeholder="请输入品牌" v-model="state.brand">
+        <p> 输入的品牌是： {{ state.brand }} </p>
+        <hr>
+        <label for=""> 网址： </label>
+        <input type="text" placeholder="请输入网址" v-model="state.site">
+        <p> 输入的网址是： {{ state.site }} </p>
+     </div>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        setup(props) {
+            
+            // 导出侦听器
+            const { reactive, watch, ref } = Vue
+
+            const state = reactive({
+                brand: '',
+                site: ''
+            })
+
+            watch([()=> state.brand,()=> state.site],(currentValue, prevValue)=>{
+                
+                console.log('现在值：' + currentValue);
+                console.log('原来值：' + prevValue);
+            })
+
+
+            return {
+                state
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

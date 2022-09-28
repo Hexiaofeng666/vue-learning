@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <com :age="age" :sex="sex" :name="name" :h="h"></com>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                age: 18,
+                sex: 'true',
+                name: '小南',
+                h: 175,
+                job: ['游戏测试', '前端开发'],
+                pengyou: {
+                    friend1: '小吴',
+                    friend2: '小猛',
+                }
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+
+    app.component('com', {
+        template: `
+            <div>
+                {{ age }} 
+                {{ sex }}   
+                {{ name }}
+                {{ h }}
+            </div>
+        `,
+        props: {
+            // 属性验证就是有属性类型的指定要求
+             // 基础的类型检查 (`null` 和 `undefined` 值会通过任何类型验证)
+            age: Number,
+            // 多个可能的类型
+            sex: [Boolean,String],
+            // 必填的字符串
+            name: {
+                type: String,
+                // 配置为必填的字符串
+                required: true
+            },
+            // 带有默认值的数字
+            h: {
+                type: Number,
+                // 配置默认值
+                default: 170
+            },
+        }
+    })
+
+    app.mount('#app')
+</script>
+</html>

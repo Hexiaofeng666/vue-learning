@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <button @click="add"> {{ state.num }} </button>
+     <hr>
+     <h4>属性 num: {{ state.num }}</h4>
+     <h4>计算属性 num2: {{ num2 }}</h4>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        setup(props) {
+
+            // 先导出
+            // 1. 要使用计算属性就要先导出来
+            const { reactive, computed } = Vue
+            
+            const state = reactive({
+                num: 10
+            })
+
+            const add = ()=>{
+                // alert('点击了')
+                // 使用函数修改值
+                state.num += 10
+            }
+            // 2. 使用计算属性
+            // let num2 = computed(()=>{
+            //     return state.num * 10
+            // })
+
+            // 不能直接修改 num2 因为它是只读的
+            // setTimeout(()=>{
+            //     num2.value = 2000000
+            // },3000)
+
+            // 如果要修改值可以使用下面方式
+            let num2 = computed({
+                get() {
+                    return state.num * 10
+                },
+                set(res){
+                    state.num = res / 10
+                }
+            })
+            setTimeout(()=>{
+                num2.value = 2000000
+            },3000)
+
+            return {
+                state,
+                add,
+                num2
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

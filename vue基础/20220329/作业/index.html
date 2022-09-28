@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='../vue3.js'></script>
+    <style>
+        #app>div{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #app>div img{
+            width: 150px;
+            height: 100px;
+            margin: 10px 5px;
+        }
+        #app>img{
+            width: 100vw;
+            height: 300px;
+            /* margin: 0 5vw; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <content :mycheckedimg="checkedimg" ref="imgcontent"></content>
+        <checked :data="data" @changeimg="changeimg"></checked>
+    </div>
+</body>
+<script type="text/html" id="content">
+    <img :src="checkedimg" alt="" @click="logmsg">
+</script>
+<script type="text/html" id="checked">
+   <div>
+    <template v-for="(item,index) in data" :key="index">
+        <img :src="item" alt="" @click="changeimgsrc(item)">
+    </template>
+   </div>
+</script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                data: ['images/23463.jpg', 'images/3247.jpg','images/52347.jpg','images/26547.jpg','images/2153.jpg','images/3427.jpg','images/52347.jpg','images/26547.jpg','images/23463.jpg'],
+                checkedimg:'images/23463.jpg'
+            }
+        },
+        created() {},
+        methods: {
+            changeimg(str){
+                this.$refs.imgcontent.logmsg(str)
+            }
+        },
+        computed: {},
+    })
+    app.component('content',{
+        template:'#content',
+        data() {
+            return {
+                checkedimg:''
+            }
+        },
+        props:['mycheckedimg'],
+        methods: {
+            logmsg(str){
+                this.checkedimg = str
+            }
+        },
+        mounted() {
+            insertimg :{
+                this.checkedimg = this.mycheckedimg
+            }
+        },
+    })
+    app.component('checked',{
+        template:'#checked',
+        props:['data'],
+        methods: {
+            changeimgsrc(item){
+                // console.log(item);
+                this.$emit('changeimg',item)
+            }
+        },
+    })
+    app.mount('#app')
+</script>
+
+</html>

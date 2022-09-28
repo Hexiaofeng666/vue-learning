@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+    <div>
+        <label for="">ID: <input type="text" v-model="id"></label>
+        <label for="">Name: <input type="text" v-model="name"></label>
+        <label for="">Age: <input type="text" v-model="age"></label>
+        <button @click="add"> 添加 </button>
+    </div>
+     <ul>
+         <!-- 
+             在使用 v-for 时要加上 :key="item.id" key 的值要具有唯一性
+             因为 vue 会处理我们的 dom 结构
+          -->
+         <li v-for="(item, index) in users" :key="item.id">
+             <input type="checkbox" name="" id="">
+             {{ item.id }} --  {{ item.name }} --  {{ item.age }}
+         </li>
+     </ul>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                id: '',
+                name: '',
+                age: '',
+                users: [
+                    { id: 1, name: '张三', age: 20 },
+                    { id: 2, name: '李四', age: 24 },
+                    { id: 3, name: '王五', age: 25 },
+                    { id: 4, name: '赵六', age: 22 },
+                    { id: 5, name: '老七', age: 23 },
+                ]
+            }
+        },
+        created(){},
+        methods:{
+            add(){
+                // 后面加
+                // this.users.push({ id:this.id, name: this.name, age: this.age })
+                // 前面加
+                this.users.unshift({ id:this.id, name: this.name, age: this.age })
+                // 在指定位置添加
+                // this.users.splice(2,0,{})
+            }
+        },
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

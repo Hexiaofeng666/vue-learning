@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+<div id='app'>
+     <h1> {{msg}}</h1>
+     {{obj}}
+</body>
+<script>
+    // 这里的ref是让数据具有响应式的，而不是原来用来找组件的
+    const app = Vue.createApp({
+        setup(props,context) {
+            // 1.引入ref
+            // 从vue源文件中导出ref
+            const {ref} = Vue
+
+            // 2.通过proxy代理
+            // '离离原上草' =》 ({value: '离离原上草'})
+            let msg = ref('离离原上草')
+             
+            let obj={
+                    name: '张三',
+                    age:18
+                }
+
+
+            setTimeout(() => {
+                // 3.不能直接修改值，因为其设置了代理，中间多了层value
+                // msg = '哈哈哈哈哈哈哈'
+                // 如果要修改值需要先 .value
+                msg.value = '哈哈'
+            }, 3000);
+
+            return {
+                msg,
+                obj
+            }
+        },
+        created() {
+            this.show()
+        },
+        methods: {
+            show(){
+                // alert('我也被秀出来了')
+                // 可以通过this.$options找到setup()
+                console.log(this.$options.setup());
+                // 值不能修改
+                // this.$options.setup().message = '666'
+            }
+        },
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

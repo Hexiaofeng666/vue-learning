@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id='app'>
+    <!-- code 标签是用来放代码块 -->
+    <!-- <code> -->
+        <!-- pre 标签是用来保留文本中的空格和换行 -->
+        <!-- <pre>  
+        </pre>
+    </code> -->
+
+    <h1 v-html="message"></h1>
+    <h1 v-text="message"></h1>
+    <hr>
+    <!-- v-pre 是不将双大括号当做 js 表达式，而是直接显示 -->
+    <h1 v-pre> 显示的内容是不获取值直接显示：{{ msg }} </h1>
+    <hr>
+    <h1 v-cloak> {{ message }} </h1>
+    <!-- <h1> {{ message }} </h1>
+    <h1> {{ message }} </h1>
+    <h1> {{ message }} </h1>
+    <h1> {{ message }} </h1>
+    <h1> {{ message }} </h1>
+    <h1> {{ message }} </h1>
+    <h1> {{ message }} </h1> -->
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: '钱是怎么来的我清清楚楚',
+                msg: '可是怎么走的，我始终迷迷糊糊'
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    
+    setTimeout(()=>{
+        app.mount('#app')
+    },5000)
+    
+
+
+</script>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <h1> {{ name }} -- {{ age }} -- {{ sex }} </h1>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+
+
+        setup(props, context) {
+
+            const { ref,reactive, toRefs, toRef } = Vue
+      
+            let obj = reactive({name: '张三',age: 18})
+
+            // 导出对象中的指定属性
+            // const { name, age } = obj
+
+            let { name, age } = toRefs(obj)
+            // toRef 当对象中没有 sex 可以导出的时候，我们自动创建
+            // 一个空的 sex ，否则会出现报错
+            let sex = toRef(obj, 'sex')
+
+            setTimeout(()=>{
+                name.value = '老吴'
+                sex.value = '女'
+            },3000)
+
+            return {
+                name,
+                age,
+                sex
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

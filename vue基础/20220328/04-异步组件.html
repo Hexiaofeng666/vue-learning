@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <async-box></async-box>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {}
+        },
+        created() {},
+        methods: {},
+        computed: {},
+    })
+    // 所谓的异步调用，就是先不调用，在需要调用的时候我们再调用
+    // 异步组件是在特定的时候才会被创建
+    // 创建一个异步组件
+    app.component('async-box', Vue.defineAsyncComponent(() => {
+        // 创建一个延迟对象
+        return new Promise((resolve, reject) => {
+            //    假设 这里做了一个数据请求
+            setTimeout(() => {
+                // 调用成功的方法
+                // 请求完成后触发创建组件
+                resolve({
+                    template: '<div>从服务器获取到的异步组件!</div>'
+                })
+            },3000)
+
+        })
+    }))
+
+    app.mount('#app')
+</script>
+
+</html>

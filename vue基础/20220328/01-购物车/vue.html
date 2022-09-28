@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Title</title>
+	<script src='vue3.js'></script>
+	<link rel="stylesheet" href="./index.css">
+	<script src="./index.js"></script>
+</head>
+
+<body>
+	<div id='app'>
+		<button @click="allChoose">全选</button>
+		<button @click="theChoose">反选</button>
+		<template v-for="(item,index) in list" :key="index">
+			<cell :good="item" :ref='"box" + index' @calculate="calculate"></cell>
+		</template>
+		<h1 class="total-price">总价 : {{totalPrice}}</h1>
+	</div>
+</body>
+<script type="text/html" id="box">
+	<div class="box">
+		<img class="cho" :src="imgs" alt="" @click="switchs">
+		<!-- <img src="./choose.png" alt=""> -->
+		<img class="logo" :src="good.img" alt="">
+
+		<h3>{{good.title}}</h3>
+		<h5>价格：{{good.price}}</h5>
+		<section>
+			<button @click="good.number<=1?good.number=1:good.number--">-</button>
+			<!-- blur监听输入框失去焦点时 -->
+			<input type="text" @blur="blur" v-model.number="good.number">
+			<button @click="good.number++">+</button>
+
+		</section>
+		<h1>{{total}}</h1>
+	</div>
+</script>
+<script>
+	const app = Vue.createApp({
+		data() {
+			return {
+				// 数据列表
+				list,
+				// 总价
+				totalPrice: 0
+			}
+		},
+		created() {},
+		methods: {
+			allChoose() {
+				// 全选按钮的点击
+				// 找到子组件
+				// 将子组件状态改为选中
+				// console.log(this.$refs);
+				for (const key in this.$refs) {
+					this.$refs[key][0].checked = true
+					// this.$refs[key]是一个数组
+					// console.log(this.$refs[key][0]);
+				}
+			},
+			theChoose() {
+				// 反选按钮的点击
+				for (const key in this.$refs) {
+					this.$refs[key][0].checked = !this.$refs[key][0].checked
+					// console.log(this.$refs[key][0]);
+				}
+			},
+			// 计算所有组件上的价格
+			calculate() {
+				let num = 0
+				// console.log(11);
+				for (const key in this.$refs) {
+					if(this.$refs[key][0].checked){
+						num += this.$refs[key][0].totals
+					}
+					
+				}
+				// console.log(num);
+				this.totalPrice = num.toFixed(2)
+				// 1.找到所有组件
+				// 2.判断组件的checked是否为真
+				// 3.如果为真就将其总价拿出
+				// 4.将所有的总价想家并返回使用
+			}
+		},
+		computed: {},
+	})
+	app.component('cell', {
+		template: '#box',
+		data() {
+			return {
+				// 单个组件的总价
+				totals: 0,
+				// 标记该项是否为选中状态
+				checked: false
+			}
+		},
+		props: ['good'],
+		methods: {
+			switchs() {
+				this.checked = !this.checked
+				// this.$emit('calculate')
+			},
+			blur() {
+				// const str = /\[1-9]{1,2}/
+				// 输入框失去焦点时调用
+				if (this.good.number == '' || this.good.number < 1) {
+					this.good.number = 1
+				}
+			}
+		},
+		// 计算属性
+		computed: {
+			// 计算单个组件的总价
+			total() {
+				this.totals = this.good.number * this.good.price
+				return this.totals.toFixed(2)
+			},
+			// 自定义属性，根据改变的checked值更换图片，且调用自定义事件
+			imgs() {
+				this.$emit('calculate')
+				if (this.checked) {
+					return 'choose2.png'
+				} else {
+					return 'choose.png'
+				}
+			},
+			// goodnumber(){
+			// 	if (this.good.number<1) {
+			// 		this.good.number=1
+			// 	}
+			// 	return this.good.number
+			// }
+		}
+	})
+	app.mount('#app')
+</script>
+
+</html>

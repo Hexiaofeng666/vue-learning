@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item,index) in lists" :key="index">
+                <router-link :to="{name:item.name,query:{id:item.id}}">
+                    {{item.name}}
+                </router-link>
+            </li>
+        </ul>
+        <router-view>
+
+        </router-view>
+    </div>
+
+
+    <!-- vue模块使用2或者3都可以 -->
+    <script src="./js/vue2.js"></script>
+    <!-- vue路由下载下来都是最新版本 -->
+    <script src="./js/vue-router.js"></script>
+
+    <script>
+        //    当页面url的哈希值发生变化 时触发事件
+        window.onhashchange = function (e) {
+            let ind = e.newURL.indexOf('#') //indexof返回首次出现的下标
+
+            let hash = e.newURL.substr(ind + 1)
+            console.log(hash); 
+        }
+        const temp = {
+            template: `<div><h1>我是页面{{$route.name}}的内容</h1>
+                    <p>页面的名字是:{{$route.name}}</p>
+                    <p>页面的hash是:{{hash}}</p>
+                    <p>页面的路径是:{{$route.path}}</p>
+                    <p>页面的id是:{{$route.query.id}}</p></div>
+                    
+                    `,
+            data() {
+                return {
+                    hash: ''
+                }
+            },
+            watch: {
+                $route: 'handler'
+            },
+            methods: {
+                handler(nv, ov) {
+                        // this.ifmb = true;
+                        console.log(this.hash);
+                        let ind = location.href.indexOf('#') //indexof返回首次出现的下标
+                        this.hash = location.href.substr(ind + 1)
+                    }
+            },
+            created() {
+                this.handler()
+            },
+        }
+        // 配置路由规则、创建路由实例
+        // route router的区别是什么？
+        const router = new VueRouter({
+            routes: [{
+                    path: '/h5',
+                    name: 'h5',
+                    component: temp
+                },
+                {
+                    path: '/java',
+                    name: 'java',
+                    component: temp
+                }, {
+                    path: 'c++',
+                    name: 'c++',
+                    component: temp
+                }
+            ]
+        });
+        // 创建vue实例
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    lists: [{
+                            name: "h5",
+                            id: 1
+                        },
+                        {
+                            name: "java",
+                            id: 2
+                        },
+                        {
+                            name: "c++",
+                            id: 3
+                        },
+                    ],
+                };
+            },
+            // 把路由对象注入到根实例里面
+            // router:router
+            router
+        })
+    </script>
+</body>
+
+</html>

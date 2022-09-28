@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+    <script src="./jquery.min.js"></script>
+    <style>
+        p {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <button @click="show = !show"> 切换显示 </button>
+        <!-- 初始渲染的过渡 appear -->
+        <transition 
+            appear
+            @before-enter="beforeEnter" 
+            @enter="enter" 
+            @after-enter="afterEnter" 
+            @enter-cancelled="enterCancelled" 
+            @before-leave="beforeLeave" 
+            @leave="leave" 
+            @after-leave="afterLeave"
+            @leave-cancelled="leaveCancelled" 
+            :css="false">
+            <p v-if="show"> 你笑起来真好看，像春天的花一样。 </p>
+        </transition>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                show: true
+            }
+        },
+        created() { },
+        methods: {
+            // --------
+            // 进入时
+            // --------
+
+            beforeEnter(el) {
+                // 进入之前
+                // 当前标签
+                console.log(el);
+                $(el).css({
+                    opacity: 0
+                })
+            },
+            // 当与 CSS 结合使用时
+            // 回调函数 done 是可选的
+            enter(el, done) {
+                // 进入
+                $(el).animate({
+                    opacity: 1
+                },1000,()=>{
+                    // done 用来标记当前状态执行结束
+                    done()
+                })
+
+            },
+            afterEnter(el) {
+                // 进入之后
+            },
+            enterCancelled(el) {
+                // 取消进入
+            },
+
+            // --------
+            // 离开时
+            // --------
+
+            beforeLeave(el) {
+                // 离开之前
+                $(el).css({
+                    opacity: 1
+                })
+            },
+            // 当与 CSS 结合使用时
+            // 回调函数 done 是可选的
+            leave(el, done) {
+                // 离开
+                $(el).animate({
+                    opacity: 0
+                },1000,()=>{
+                    done()
+                })
+
+            },
+            afterLeave(el) {
+                // 离开之后
+            },
+            // leaveCancelled 只用于 v-show 中
+            leaveCancelled(el) {
+                // 取消离开
+            }
+        },
+        computed: {},
+    })
+    app.mount('#app')
+</script>
+
+</html>

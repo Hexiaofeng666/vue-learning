@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="https://unpkg.com/vue@next"></script> -->
+    <script src="./vue3.js"></script>
+</head>
+<body>
+    <div id="app">
+        梦想，从这里起航-- {{ message }}
+        <!-- v-bind指令，绑定属性用的 -->
+        <!-- 通过v-bind指令绑定数据中的“js表达式”，
+            跟双大括号的含义一样，可以获取vue的数据
+        -->
+        <div v-bind:title="title">锄禾日当午</div>
+        <div :style="coloeRed">汗滴禾下土</div>
+
+        <div>
+            <span>{{fan}}</span>
+            <br>
+            <!-- 
+                v-model该指令是用来实现数据的双向数据绑定
+                MVC：数据 视图 管理者（控制器）
+                MVVM：数据 视图 视图数据
+            -->
+            <input type="text" v-model="fan" placeholder="请输入你最想吃的东西">
+        </div>
+
+        <div>
+            <!-- 条件和循环 -->
+            <!-- v-if判断语句，后面引号的是js表达式 -->
+            <p v-if="seen">疫情期间，人人做好防护，少出门多通风，少聚集，多独处</p>
+            <!-- v-on是用来监听事件的，click是点击事件的监听 -->
+            <!-- seecClick事件被触发后调用的函数要放在methods中 -->
+            <button v-on:click="seenClick">切换显示</button>
+
+
+            <ul>
+                <!-- v-for循环指令 -->
+                <li v-for="todo in todos">{{todo}}</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const app={
+            // data是一个函数而不是一个对象
+            data(){
+                // 在该函数中return 一个对象，目的是让每个组件都有自己独立的数据
+                return {
+                    message:'Vue',
+                    title:'锄禾说的一句话',
+                    coloeRed:'color:red',
+                    fan:'',
+                    seen:true,
+                    todos:[
+                        '陈浩',
+                        '小南',
+                        '小北',
+                        '小东',
+                        '小西',
+                        '小中',
+                    ]
+                }
+            },
+            // 该对象中存放的是页面中的所有函数
+            methods: {
+                seenClick(){
+                    // seen的点击事件
+                    // 在vue实例中 this指的是当前的实例对象
+                    this.seen=!this.seen
+                }
+            },
+        }
+
+        // Vue.createApp(app)通过app对象创建一个vue实例
+        const vm = Vue.createApp(app)
+        // 将.mount('#app')将vue实例绑定到选择器为#app的标签上
+        .mount('#app')
+
+        setTimeout(()=>{
+            // 通过vm实例将message的值修改掉
+            console.log(vm);
+
+            // 直接修改vue实例中的参数内容
+            vm.message = '123456'
+            
+        },3000)
+    </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+<script src='./vue.js'></script>
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div id='app'>
+	<button @click='allChoose'>全选</button> 
+	<button @click='theChoose'>反选</button> 
+
+	<template v-for='(item,index) in goods' :key="index">
+		<cell :good='item' @calculate='calculate' :ref='"box" + index'></cell>
+	</template>
+
+	
+
+	<h1>总价：￥ {{ totalPrice }}</h1>
+</div>
+<script type="text/html" id="box">
+	<div class="box">
+		<img @click='swi = ! swi' class="cho" :src="choose" alt="">
+		<img class="logo" :src="good.img" alt="">
+
+		<h3>{{ good.title }}</h3>
+		<h5>￥ {{ good.price }}</h5>
+
+		<section>
+			<button @click='good.number <= 1 ? good.number = 1 : good.number--'>-</button>
+			<input type="text" @blur='blur' v-model.number='good.number'>
+			<button @click='good.number++'>+</button>
+		</section>
+
+		<h1>总价：￥ {{ total }}</h1>
+	</div>
+</script>
+</body>
+<script>
+	const app = Vue.createApp({
+		data() {
+			return {
+			// 所有的订单价格
+			totalPrice: 0,
+			goods: [{
+				title: '佛跳墙',
+				price: 88.88,
+				number: 1,
+				img: '佛跳墙.jpg'
+			}, {
+				title: '翠堂菜拼金钱袋',
+				price: 66.66,
+				number: 1,
+				img: '翠堂菜拼金钱袋.jpg'
+			}, {
+				title: '果仁鸳鸯虾球',
+				price: 55.55,
+				number: 1,
+				img: '果仁鸳鸯虾球.jpg'
+			}, {
+				title: '海皇三鲜煎面',
+				price: 11.11,
+				number: 1,
+				img: '海皇三鲜煎面.jpg'
+			}, {
+				title: '黑醋法国鹅肝',
+				price: 22.22,
+				number: 1,
+				img: '黑醋法国鹅肝.jpg'
+			}, {
+				title: '家乡葱油饼',
+				price: 33.33,
+				number: 1,
+				img: '家乡葱油饼.jpg'
+			}, {
+				title: '金奖鳗鱼酥',
+				price: 44.44,
+				number: 1,
+				img: '金奖鳗鱼酥.jpg'
+			}, {
+				title: '上汤龙虾',
+				price: 77.77,
+				number: 1,
+				img: '上汤龙虾.jpg'
+			}, {
+				title: '深海金枪鱼',
+				price: 99.99,
+				number: 1,
+				img: '深海金枪鱼.jpg'
+			}, {
+				title: '野生水鱼焖鲍鱼鸡',
+				price: 99.00,
+				number: 1,
+				img: '野生水鱼焖鲍鱼鸡.jpg'
+			}, {
+				title: '佛跳墙',
+				price: 88.88,
+				number: 1,
+				img: '佛跳墙.jpg'
+			}, {
+				title: '翠堂菜拼金钱袋',
+				price: 66.66,
+				number: 1,
+				img: '翠堂菜拼金钱袋.jpg'
+			}, {
+				title: '果仁鸳鸯虾球',
+				price: 55.55,
+				number: 1,
+				img: '果仁鸳鸯虾球.jpg'
+			}, {
+				title: '海皇三鲜煎面',
+				price: 11.11,
+				number: 1,
+				img: '海皇三鲜煎面.jpg'
+			}, {
+				title: '黑醋法国鹅肝',
+				price: 22.22,
+				number: 1,
+				img: '黑醋法国鹅肝.jpg'
+			}, {
+				title: '家乡葱油饼',
+				price: 33.33,
+				number: 1,
+				img: '家乡葱油饼.jpg'
+			}, {
+				title: '金奖鳗鱼酥',
+				price: 44.44,
+				number: 1,
+				img: '金奖鳗鱼酥.jpg'
+			}, {
+				title: '上汤龙虾',
+				price: 77.77,
+				number: 1,
+				img: '上汤龙虾.jpg'
+			}, {
+				title: '深海金枪鱼',
+				price: 99.99,
+				number: 1,
+				img: '深海金枪鱼.jpg'
+			}, {
+				title: '野生水鱼焖鲍鱼鸡',
+				price: 99.00,
+				number: 1,
+				img: '野生水鱼焖鲍鱼鸡.jpg'
+			}]
+		} 
+		},
+		created(){},
+		methods:{
+			allChoose(){
+				// 全选
+				for(let key in this.$refs){
+					this.$refs[key].swi = true
+				}
+			},
+			theChoose() {
+				// 反选
+				for(let key in this.$refs){
+					this.$refs[key].swi = !this.$refs[key].swi
+				}
+			},
+			// 子组件会调用该方法来计算总价
+			calculate(){
+				let num = 0
+				for(let key in this.$refs){
+					// 如果该组件标记的是选中状态那么就计算价格
+					if(this.$refs[key].swi){
+						num += this.$refs[key].totals
+					}
+				}
+				this.totalPrice = num.toFixed(2)
+			}
+		},
+		computed:{},
+	})
+
+	// 注册组件
+	app.component('cell',{
+		template: '#box',
+		props: ['good'],
+		data() {
+			return {
+				// 标记是否为选中
+				swi: false,
+				// 单个组件的价格
+				totals: 0
+			}
+		},
+		// 存放计算属性的地方
+		computed: {
+			// 点击选择的事件
+			choose() {
+				// 选中或者取消选中都会执行总价的计算
+				this.$emit('calculate')
+
+				return this.swi ? 'choose2.png' : 'choose.png'
+			},
+			// 计算单个组件的总价
+			total() {
+				this.totals = this.good.number * this.good.price
+				// .toFixed(2) 保留两位小数，防止出现小数位数过多
+				return this.totals.toFixed(2)
+			}
+		},
+		methods: {
+			blur(){
+				// 失去焦点时调用该方法
+				if(this.good.number == '' || this.good.number <1){
+					this.good.number = 1
+				}
+			}
+		}
+	})
+
+	app.mount('#app')
+</script>
+</html>

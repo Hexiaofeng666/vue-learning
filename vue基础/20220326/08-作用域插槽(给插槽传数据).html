@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <com>
+         <!-- 
+             v-slot:item="data" 将内容插入到 item 插槽中
+             data 是我们自定义的名称，data 中所有的数据都是
+             插槽传递过来的，会将所有的数据全部都放在一个对象中
+             该对象就是 data,我们使用的时候直接 data. 打点
+             调用想要使用的属性即可
+             如： data.message
+         -->
+        <template v-slot:item="mydata">
+            <!-- 这里使用的所有数据都是 app 的数据 -->
+            <h1> {{ message }} </h1>
+            <h1> {{ mydata.title }} </h1>
+            <p>
+                {{ mydata }}
+            </p>
+        </template>
+     </com>
+</div>
+</body>
+<script type="text/html" id="com">
+    <div>
+        <!-- 将子组件中的数据通过属性传递到插槽标签中使用 -->
+        <slot name="item" :title="message" :obj="obj" :num="num" :arr="arr"></slot>
+    </div>
+</script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: 'hello Vue!'
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.component('com',{
+        template: '#com',
+        data() {
+            return {
+                message: '你好 Vue',
+                obj: {
+                    name: '小南',
+                    age: 18
+                },
+                arr: [1,2,3,4,5],
+                num: 11,
+                is: true
+            }
+        },
+    })
+    app.mount('#app')
+</script>
+</html>

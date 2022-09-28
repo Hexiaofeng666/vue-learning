@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <!-- 父 -->
+    <div id="app">
+            <!-- <div> -->
+                {{value}}
+                <br>
+                <com @changedata="getValue" :value="value"></com>
+            <!-- </div> -->
+    </div>
+
+</body>
+<!-- 子 -->
+<script type="text/html" id="com">
+            <input type="text" @input="changes" :value="value">
+</script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                value: "这是一串帅哥留下来的话"
+            }
+        },
+        methods: {
+            getValue(value) {
+                // console.log(66);
+                this.value = value
+            }
+        },
+    })
+    app.component('com', {
+        template: '#com',
+        props: ['value'],
+        data() {
+            return {
+
+            }
+        },
+        methods: {
+            changes(e) {
+                this.$emit("changedata", e.target.value)
+            }
+        }
+    })
+    app.mount('#app')
+</script>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>何晓锋1014</title>
+    <script src="./vue3.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script> -->
+    <style>
+        #app>table {
+            border: 1px solid red;
+            width: 400px;
+            height: 500px;
+        }
+
+        #app td {
+            border: 1px solid red;
+            height: 70px;
+            width: 100px;
+            font-size: 50px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <table>
+            <tr v-model='result'>
+                <td colspan="3" style="font-size: 25px;">
+                    {{result}}
+                </td>
+            </tr>
+            <tr>
+                <td @click='num(1)'>1</td>
+                <td @click='num(2)'>2</td>
+                <td @click='num(3)'>3</td>
+            </tr>
+            <tr>
+                <td @click='num(4)'>4</td>
+                <td @click='num(5)'>5</td>
+                <td @click='num(6)'>6</td>
+            </tr>
+            <tr>
+                <td @click='num(7)'>7</td>
+                <td @click='num(8)'>8</td>
+                <td @click='num(9)'>9</td>
+            </tr>
+            <tr>
+                <td @click='num("+")'>+</td>
+                <td @click='num(0)'>0</td>
+                <td @click='num("—")'>—</td>
+            </tr>
+            <tr>
+                <td @click='num("*")'>*</td>
+                <td @click='answer()'>=</td>
+                <td @click='num("/")'>/</td>
+            </tr>
+        </table>
+        <button @click='clear()'>清空</button>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    result: '',
+                    count: '',
+                    ending: 0
+                }
+            },
+            methods: {
+                num(nums) {
+                    // console.log(this.result.length);
+                    if (this.result.length != 0 || (nums < 9 && nums >= 0)) {
+                        if (this.count != '' && isNaN(nums)) {
+                            alert('填错了！！！(不能多次运算)')
+                           
+                        }
+                        else{
+                            if (isNaN(nums)&&this.count=='') {
+                                this.count = nums
+                            }
+                            // if (nums == '+') {
+                            //     if (this.count == '') {
+                            //         this.count = "+"
+                            //     }
+                            //     // console.log(this.count);
+                            // } else if (nums == '—') {
+                            //     if (this.count == '') {
+                            //         this.count = "—"
+                            //     }
+                            // } else if (nums == '*') {
+                            //     if (this.count == '') {
+                            //         this.count = "*"
+                            //     }
+                            // } else if (nums == '/') {
+                            //     if (this.count == '') {
+                            //         this.count = "/"
+                            //     }
+                            // }
+                            // console.log(this.count);
+                            // console.log(isNaN(nums));
+                            // console.log(this.count != '');
+                            return this.result = this.result + nums
+                        }
+                    } else {
+                        alert('填错了！！！(不能以运算符开头)')
+                    }
+
+                },
+                answer() {
+                    var str = this.result.split(this.count)
+                    if (this.count == '+') {
+                        this.ending = parseInt(str[0]) + parseInt(str[1])
+                    } else if (this.count == '—') {
+                        this.ending = parseInt(str[0]) - parseInt(str[1])
+                    } else if (this.count == '*') {
+                        this.ending = parseInt(str[0]) * parseInt(str[1])
+                    } else if (this.count == '/') {
+                        this.ending = parseInt(str[0]) / parseInt(str[1])
+                    }
+                    this.result = this.result + '=' + this.ending
+                },
+                clear() {
+                    this.result = ''
+                    this.count = ''
+                    this.ending = 0
+                    return
+                }
+            },
+        }).mount('#app')
+    </script>
+</body>
+
+</html>

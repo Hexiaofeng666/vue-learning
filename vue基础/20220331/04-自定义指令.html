@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <input type="text" placeholder="中午打算吃什么" v-focus>
+        <input type="text" v-foc>
+    </div>
+</body>
+<script>
+    /*
+        自定义指令
+    */
+    const app = Vue.createApp({
+        data() {
+            return {}
+        },
+        // 局部指令的注册
+        directives: {
+            foc: {
+                // 指令的定义
+                mounted(el) {
+                    el.focus()
+                }
+            }
+        },
+        created() {},
+        methods: {},
+        computed: {},
+    })
+    // 注册一个全局自定义指令 `v-focus`
+    app.directive('focus', {
+        // 当被绑定的元素挂载到 DOM 中时……
+        mounted(el) {
+            // el当前被绑定的DOM元素
+            // 聚焦元素
+            setTimeout(() => {
+                el.focus()
+            }, 3000);
+        }
+    })
+    app.mount('#app')
+</script>
+
+</html>

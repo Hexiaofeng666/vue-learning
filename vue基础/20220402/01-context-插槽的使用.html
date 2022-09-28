@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='vue3.js'></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: red;
+            height: 44px;
+            line-height: 44px;
+            color: white;
+            position: relative;
+        }
+        nav > h5 {
+            text-align: center;
+            width: 70%;
+            margin: 0 auto;
+        }
+        nav > span {
+            position: absolute;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id='app'>
+     <box class="aaa" name="名称" title="大标题">
+         <span> < </span>
+         <h5>大标题首页</h5>
+     </box>
+
+     <box>
+        <span> < </span>
+        <input type="text">
+    </box>
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {}
+        },
+        created(){},
+        methods:{},
+        computed:{},
+        components: {
+            'box': {
+                setup(props,context) {
+                    
+                    const { h } = Vue
+
+                    const { slots } = context
+                    console.log(slots.default())
+                    // h函数是创建节点，就是 vue 中的 createElement 方法,
+                    // 该函数作用就是创建虚拟 dom,追踪 dom 变化的
+                    return ()=> h('nav',{style: 'color: #000'},[slots.default()])
+                    
+                },
+                // template: `<nav>
+                //     <slot></slot>
+                //     <h5>大标题首页</h5>
+                //     </nav>`,
+            }
+        }
+    })
+    app.mount('#app')
+</script>
+</html>

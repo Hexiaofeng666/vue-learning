@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+<script src='vue3.js'></script>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        background-color: gainsboro;
+    }
+    .nav {
+        height: 44px;
+        width: 100%;
+        border-bottom: 1px solid gray;
+        background-color: white;
+        position: relative;
+    }
+    .nav h4 {
+        width: calc(100% - 160px);
+        line-height: 44px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    .nav .left{
+        position: absolute;
+        height: 44px;
+        line-height: 44px;
+        left: 10px;
+    }
+</style>
+</head>
+<body>
+<div id='app'>
+     <nav-com></nav-com>
+
+     <nav-com>
+         <span class="left">返回</span>
+     </nav-com>
+
+     <nav-com>
+        <span class="left">返回</span>
+        <!-- <span class="right">登录</span> -->
+        <!-- 
+            按照正常理解，一个插槽只能插入一个标签，然而现在一个插槽可以
+            插入无限个标签。
+            解决此问题，使得一个插槽只能插入一个标签
+            需要给插槽起个名字，将指定的标签插入到指定的名字中
+         -->
+    </nav-com>
+</div>
+</body>
+<script type="text/html" id="com">
+    <div class="nav">
+        <slot></slot>
+        <h4> 首页 </h4>
+        <!-- <slot></slot> -->
+    </div>
+</script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {}
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+
+    app.component('nav-com',{
+        template: '#com'
+    })
+
+    app.mount('#app')
+</script>
+</html>

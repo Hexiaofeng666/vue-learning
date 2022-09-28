@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        p > a {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            background-color: blue;
+        }
+        #scroll {
+            width: 100px;
+            height: 100px;
+            border: 1px solid red;
+            overflow: auto;
+        }
+    </style>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <div>
+         <p> 被点了 {{ count }} 次 </p>
+         <button @click="count++">求点击</button>
+     </div>
+     <div>
+         <!-- 点击调用函数 -->
+         <!-- 内联调用，可以传递参数和 event -->
+         <button @click="showAlert('今天天气真好',$event)"> 点击弹出 </button>
+     </div>
+     <div>
+         <!-- 这两个 one() 和 two() 将执行按钮点击事件 -->
+        <button @click="one($event), two($event)">
+            Submit
+        </button>
+     </div>
+
+
+     <div>
+         <h1> 修饰符 </h1>
+         <!-- 阻止单击事件继续冒泡 -->
+         <!-- .stop 如果 p 标签中也有事件就不会被调用 -->
+        <!-- <p @click="pdoThis">
+             <a @click.stop="doThis">doThis</a>
+        </p> -->
+
+        <!-- .prevent 阻止默认事件 -->
+
+        <!-- .capture 让子元素的事件在父元素调用后才会被调用 -->
+        <!-- <p @click.capture="pdoThis">
+            <a @click="doThis">doThis</a>
+       </p> -->
+
+
+       <!-- .self 只能当点中自身时才会触发事件 -->
+       <!-- 子元素的事件无法冒泡到当前元素 -->
+       <!-- <p @click.self="pdoThis">
+            <a @click="doThis">doThis</a>
+       </p> -->
+
+
+       <!-- .once 该事件只添加一次，只能被调用一次 -->
+       <p @click="pdoThis">
+            <a @click.once="doThis">doThis</a>
+        </p>
+
+
+        <div id="scroll" @scroll.passive="onScroll">
+            不像其它只能对原生的 DOM 事件起作用的修饰符，.once 修饰符还能被用到自定义的组件事件上。如果你还没有阅读关于组件的文档，现在大可不必担心。
+            不像其它只能对原生的 DOM 事件起作用的修饰符，.once 修饰符还能被用到自定义的组件事件上。如果你还没有阅读关于组件的文档，现在大可不必担心。
+            不像其它只能对原生的 DOM 事件起作用的修饰符，.once 修饰符还能被用到自定义的组件事件上。如果你还没有阅读关于组件的文档，现在大可不必担心。
+            不像其它只能对原生的 DOM 事件起作用的修饰符，.once 修饰符还能被用到自定义的组件事件上。如果你还没有阅读关于组件的文档，现在大可不必担心。
+            不像其它只能对原生的 DOM 事件起作用的修饰符，.once 修饰符还能被用到自定义的组件事件上。如果你还没有阅读关于组件的文档，现在大可不必担心。
+            不像其它只能对原生的 DOM 事件起作用的修饰符，.once 修饰符还能被用到自定义的组件事件上。如果你还没有阅读关于组件的文档，现在大可不必担心。
+            不像其它只能对原生的 DOM 事件起作用的修饰符，.once 修饰符还能被用到自定义的组件事件上。如果你还没有阅读关于组件的文档，现在大可不必担心。
+        </div>
+
+
+     </div>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                count: 0
+            }
+        },
+        created(){},
+        methods:{
+            showAlert(str,event){
+                alert(str)
+                console.log(event);
+            },
+            one(event) {
+                // 第一个事件处理器逻辑...
+            },
+            two(event) {
+                // 第二个事件处理器逻辑...
+            },
+            doThis(){
+                alert('a点击了')
+            },
+            pdoThis(){
+                alert('p点击了')
+            },
+            onScroll(){
+                console.log('滚动了')
+            }
+
+        },
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

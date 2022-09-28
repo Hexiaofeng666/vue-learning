@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <h1> {{ name }} -- {{ age }} </h1>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+
+
+        setup(props, context) {
+
+            const { ref,reactive, toRefs } = Vue
+      
+            let obj = reactive({name: '张三',age: 18})
+
+            // 导出对象中的指定属性,以便直接使用
+            // const { name, age } = obj
+
+            let { name, age } = toRefs(obj)
+            
+            setTimeout(()=>{
+                obj.name = '老吴'
+            },3000)
+
+            return {
+                name,
+                age
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='app'>
+        <button @click="change(top,-1)">上</button>
+        <button>左</button>
+        <button>右</button>
+        <button>下</button>
+        <div v-pin:[direction]="num" id="box"></div>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                direction: 'left',
+                left: 0,
+                top:0
+            }
+        },
+        directives: {
+            pin: {
+                mounted(el, binding) {
+                    console.log(binding);
+                    el.style.position = 'fixed'
+                    // binding.value 是我们传递给指令的值——在这里是 200
+                    // el.style.top = binding.value.top + 'px'
+                    // console.log(this[binding.arg]);
+                    this[binding.arg] = this[binding.arg] + 5
+                    el.style[binding.arg] = binding.value + 'px'
+                    console.log(this.left);
+                },
+                updated(el, binding) {
+                    // const s = binding.arg || 'top'
+                    el.style[binding.arg] = binding.value + 'px'
+                    // console.log(binding.value);
+                }
+            }
+        },
+        created() {},
+        methods: {
+            change(arr, num) {
+                // console.log(this.dir.arr);
+                this.direction = arr
+                // this.dir[arr] = this.dir[arr] + num
+                this.num = num
+                // console.log(this.dir[arr]);
+            }
+        },
+        computed: {},
+    })
+    app.mount('#app')
+</script>
+
+</html>

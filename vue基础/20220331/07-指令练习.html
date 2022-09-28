@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+    <style>
+        #app div {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            left: 150px;
+            top: 150px;
+        }
+    </style>
+</head>
+<body>
+<div id='app'>
+        <button @click="key('top')">上</button>
+        <button @click="key('right')">右</button>
+        <button @click="key('bottom')">下</button>
+        <button @click="key('left')">左</button>
+     <div v-move:[direction]="num"> 带自定义参数指令 </div>
+</div>
+</body>
+<script>
+    let app = Vue.createApp({
+        data() {
+            return {
+                direction: 'left',
+                num: 150,
+                p: {
+                    left: 150,
+                    top: 150
+                }
+            }
+        },
+        created(){},
+        methods:{
+            key(value){
+                
+                if(value == 'top'){
+                    this.direction = 'top'
+                    this.p.top -= 5
+                    this.num = this.p.top
+                }else if(value == 'right'){
+                    this.direction = 'left'
+                    this.p.left += 5
+                    this.num = this.p.left
+                }else if(value == 'bottom'){
+                    this.direction = 'top'
+                    this.p.top += 5
+                    this.num = this.p.top
+                }else if(value == 'left'){
+                    this.direction = 'left'
+                    this.p.left -= 5
+                    this.num = this.p.left
+                }
+            }
+        },
+        computed:{},
+    })
+    // 简写
+    app = app.directive('move', (el, binding)=> {
+        el.style[binding.arg] = binding.value + 'px'
+    })
+
+    app = app.mount('#app')
+
+
+    setTimeout(()=>{
+        app.direction = 'top'
+    },3000)
+</script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <h1>{{message}}</h1>
+        <button @click="btnClick">点击修改</button>
+    </div>
+</body>
+<script>
+    const app = Vue.createApp({
+        setup(props, context) {
+
+            return {
+                message: '有些人的底气来自于实力，有些人的底气来源于无知',
+                btnClick() {
+                    // 这里的this指向的是window，不能使用this
+                    // console.log(this);
+                    // this.message = '55555'
+                    alert('点击了')
+                }
+            }
+        },
+        created() {
+            this.show()
+        },
+        methods: {
+            show(){
+                // alert('我也被秀出来了')
+                // 可以通过this.$options找到setup()
+                console.log(this.$options.setup());
+                // 值不能修改
+                // this.$options.setup().message = '666'
+            }
+        },
+        computed: {},
+    })
+    app.mount('#app')
+</script>
+
+</html>

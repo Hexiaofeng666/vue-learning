@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                obj: {},
+                name: '',
+                arr: [],
+                sex: ''
+                // ....
+            }
+        },
+        created(){},
+        methods:{
+            add(){
+                this.name = ''
+            },
+            aaa(){
+                this.obj = {}
+            },
+            // ...
+        },
+        computed:{
+            a(){
+                return this.name
+            }
+            // ....
+        },
+        watch: {
+            name(){
+
+            }
+            // .....
+        }
+    })
+    app.mount('#app')
+</script>
+</html>

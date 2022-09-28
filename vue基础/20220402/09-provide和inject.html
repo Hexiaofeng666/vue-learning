@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <div id='app'>
+        <h1>{{state.name}} -- {{state.age}}岁</h1>
+        <father :state="state"></father>
+    </div>
+</body>
+<script>
+    // ------------------孙子组件---------------------
+    const son = {
+        template: `
+            <div style='width:200px; height:200px; background:green;'>
+                {{state.name}} -- {{state.age}}岁
+                <div>
+                    <button @click='change'> 修改 </button>    
+                </div>
+            </div>
+        `,
+        // setup(props){
+        //     const {inject} = Vue
+        //     // inject做订阅监听用的
+        //     let state = inject('state')
+        //     console.log(state);
+        //     const change = ()=>{
+        //         // 可以在子组件中直接修改值
+        //         // 但是不建议这么改，因为这种方式破坏了单项数据流的规则
+        //         state.name = '老吴'
+        //     }
+        //     return {
+        //         state,
+        //         change
+        //     }
+        // }
+        setup(props){
+            const {inject} = Vue
+            // inject做订阅监听用的
+            let state = inject('state')
+            // 引入祖父组件的方法
+            let changes = inject('change')
+            console.log(state);
+            const change = ()=>{
+                // 这样就可以了
+                changes('老吴')
+            }
+            return {
+                state,
+                change
+            }
+        }
+    }
+
+
+    // ------------------孙子组件---------------------
+
+
+    // ------------------子组件---------------------
+    const father = {
+        template: `
+            <div style='width:300px; height:300px; background:red;'>
+                <son></son>
+            </div>
+        `,
+        components:{
+            'son':son
+        }
+    }
+
+
+    // ------------------子组件---------------------
+
+
+
+    const app = Vue.createApp({
+        setup(props) {
+            const { reactive , provide} = Vue
+
+            const state = reactive({
+                name:'张三',
+                age:18
+            })
+
+            // 该函数是用来提供给子组件或者孙组件调用或修改值用的
+            const change = (value)=>{
+                state.name = value
+            }
+
+
+
+
+            // 发射事件
+            // 相当于路由器发WiFi
+            provide('state',state)
+            provide('change',change)
+            return {
+                state
+            }
+        },
+        created() {},
+        methods: {},
+        computed: {},
+        components: {
+            'father': father
+        }
+    })
+    app.mount('#app')
+</script>
+
+</html>

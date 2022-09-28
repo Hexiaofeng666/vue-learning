@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <h1> {{ obj.name }} -- {{ obj.age }} </h1>
+     <ul>
+         <li v-for="(item, index) in arr" :key="index">{{ item }}</li>
+     </ul>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+
+
+        setup(props, context) {
+
+            // reactive: 让引用类型的数据具备响应式
+            const { ref,reactive } = Vue
+            // 这样的数据是不具备响应式的
+            // let obj = {name: '张三',age: 18}
+            // 如果想要数据具备响应式，可以使用 reactive
+            let obj = reactive({name: '张三',age: 18})
+
+            // 数组能不能响应式
+            let arr = reactive(['vue','jQuery'])
+
+            setTimeout(()=>{
+                obj.age = 20
+                arr.push('react')
+            },3000)
+
+            return {
+                obj,
+                arr
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

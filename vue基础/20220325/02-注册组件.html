@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+
+<body>
+    <!-- app 组件 -->
+    <div id='app'>
+        <!-- 自定义组件 -->
+        <btn-count></btn-count>
+        <btn-count></btn-count>
+        <btn-count></btn-count>
+        <my-btn></my-btn>
+
+        <my-com></my-com>
+    </div>
+    
+</body>
+<!-- 组件模板 -->
+<script type="text/html" id="myCom">
+    <!-- 只能有一个跟标签 -->
+    <div>
+        <h1>你笑起来真好看</h1>
+        <h1>{{ message }}</h1>
+        <!-- my-btn 是一个全局组件，所以可以直接使用 -->
+        <my-btn></my-btn>
+        <!-- 因为 com 是一个局部组件，所以无法使用 -->
+        <!-- <com></com> -->
+    </div>
+    <!-- 记住一个组件中最好只有一个跟标签 -->
+    <!-- <div>
+        askjdalsjdkad
+    </div> -->
+</script>
+<script>
+
+    /*
+        一个应用程序中只有一个 html, 程序是有多个大组件所组成，每个大组件中
+        都有很多个小组件，每个小组件中可能还有更小的组件，每个更小的组件是由
+        零件（标签）所组成
+    */ 
+
+    var app = Vue.createApp({
+        data() {
+            return {}
+        },
+        created() { },
+        methods: {},
+        computed: {},
+    })
+
+    // let obj = {
+    //     count: 0
+    // }
+
+    // 自定义组件其实有点类似于我们自定义标签
+    // 定义一个名为 button-counter 的新全局组件
+    /*
+        组件命名规范：
+        全部小写
+        包含连字符 (及：即有多个单词与连字符符号连接)
+        <my-component-name> 和 <MyComponentName> 都是可接受的
+    */ 
+    app.component('btn-count', {
+        data() {
+            // return obj
+            return {
+                count: 0
+            }
+        },
+        template: `
+        <button @click="count++">
+            你点击了我 {{ count }} 次.
+            
+        </button>`
+    })
+    // 注册全局组件
+    app.component('my-btn', {
+        data() {
+            // return obj
+            return {
+                count: 0
+            }
+        },
+        components: {
+            // 注册局部组件
+            com: {
+                template: `<img src='./xx.png'>`
+            }
+        },
+        template: `
+        <button @click="count++">
+            {{ count }} <com></com>
+        </button>`
+    })
+
+
+    // 注册全局组件
+    app.component('my-com',{
+        data(){
+            return {
+                message: '像春天的花一样'
+            }
+        },
+        template: '#myCom'
+    })
+
+    app.mount('#app')
+
+</script>
+
+
+</html>

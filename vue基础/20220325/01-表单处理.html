@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <div>
+         <!-- 双向数据绑定 -->
+         <p> message: {{ message }} </p>
+        <input type="text" v-model="message">
+     </div>
+     <div>
+        <span>Multiline message is:</span>
+        <p style="white-space: pre-line;">{{ message }}</p>
+        <br />
+        <textarea v-model="message" placeholder="add multiple lines"></textarea>
+     </div>
+
+
+     <div>
+        <input type="checkbox" id="checkbox" v-model="checked" />
+        <label for="checkbox">{{ checked }}</label>
+
+     </div>
+
+
+     <div id="v-model-multiple-checkboxes">
+        <input type="checkbox" id="jack" value="小南" v-model="checkedNames" />
+        <label for="jack">小南</label>
+        <input type="checkbox" id="john" value="小猛" v-model="checkedNames" />
+        <label for="john">小猛</label>
+        <input type="checkbox" id="mike" value="小吴" v-model="checkedNames" />
+        <label for="mike">小吴</label>
+        <br />
+        <span>Checked names: {{ checkedNames }}</span>
+      </div>
+
+      <div id="v-model-radiobutton">
+        <input type="radio" id="one" value="One" v-model="picked" />
+        <label for="one">One</label>
+        <br />
+        <input type="radio" id="two" value="Two" v-model="picked" />
+        <label for="two">Two</label>
+        <br />
+        <span>Picked: {{ picked }}</span>
+      </div>
+
+      <div id="v-model-select" class="demo">
+        <select v-model="message">
+          <option disabled value="">Please select one</option>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+        </select>
+        <span>Selected: {{ message }}</span>
+      </div>
+
+
+      <div>
+          <!-- 设置可以多选的，需要按住键盘的 shift 然后选择 -->
+        <select v-model="message" multiple>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+          </select>
+          <br />
+          <span>Selected: {{ message }}</span>
+      </div>
+
+      <div id="v-model-select-dynamic" class="demo">
+        <select v-model="selected">
+          <option v-for="option in options" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+      </div>
+
+
+      <!-- ----------- 值绑定 ----------- -->
+      <div>
+            <!-- 当选中时，`picked` 为字符串 "a" -->
+            <input type="radio" v-model="picked" value="a" />
+
+            <!-- `toggle` 为 true 或 false -->
+            <input type="checkbox" v-model="toggle" />
+            <span>{{ toggle }}</span>
+            <!-- 当选中第一个选项时，`selected` 为字符串 "abc" -->
+            <select v-model="selected">
+                <option value="d">d</option>
+                <option value="abc">ABC</option>
+                <option value="e">e</option>
+                <option value="f">f</option>
+            </select>
+
+            <p> toggle: {{ toggle }} </p>
+            <input type="checkbox" v-model="toggle" true-value="小南" false-value="小猛" />
+      </div>
+
+
+      <!-- ---------- 修饰符 --------- -->
+      <div>
+          <!-- 在“change”时而非“input”时更新 -->
+          <!-- change 失去响应后执行 -->
+          <!-- input 及时数据 -->
+          <input v-model.lazy="message" />
+        <!-- number 将数据转换为 number 类型 -->
+          <input v-model.number="age" type="text" />
+        <!-- trim 去掉用户输入的 首尾空白字符 -->
+          <input v-model.trim="msg" />
+
+      </div>
+</div>
+</body>
+<script>
+    
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: '',
+                checked: true,
+                checkedNames: [],
+                picked: '',
+                selected: '小南',
+                options: [
+                    { text: '小南', value: '小南' },
+                    { text: '小猛', value: '小猛' },
+                    { text: '小吴', value: '小吴' }
+                ],
+                toggle: ''
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

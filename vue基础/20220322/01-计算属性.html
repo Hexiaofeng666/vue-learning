@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue3.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>num的值是{{num}}</p>
+        <p>当前num的值是：{{numtype}}</p>
+        <!-- 点击后取出随机数0或者1且赋值给num -->
+        <button @click="change">改变num的值</button>
+        <button @click="countClick"> 改变 count 值 </button>
+    </div>
+
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    num: 0,
+                    msg: '偶数',
+                    count:0
+
+                }
+            },
+            methods: {
+                change() {
+                    this.num = Math.floor(Math.random() * 2)
+                    // console.log(this.num);
+                    // this.showMsg()
+                },
+                showMsg() {
+                    console.log('函数被调用了' + this.num);
+                    this.msg = this.num % 2 == 0 ? '偶数' : '奇数'
+                },
+                countClick() {
+                    this.count = 10
+                }
+            },
+            computed: {
+                numtype: function () {
+                    /*
+                        当this.num的值发生改变时才会调用message( )
+                        也就是num被监听，只要值发生改变立刻调用message()
+                        如果计算属性中有使用多个变量，那么这些变量全部都会被
+                        监听到，只要有一个发生改变那么该函数就会被调用
+
+                    
+                    */
+                    console.log('计算属性被调用了' + this.count);
+                    return (this.num % 2 == 0 || this.num == 0) ? '偶数' : '奇数'
+                }
+
+            }
+        }).mount('#app')
+        /*
+            计算属性和函数的区别：
+            计算属性，他是在值发生改变后才回去执行，
+            如果值没有改变，就不会去执行对应的函数，这样性能才能更佳完好
+            注意：计算属性中要有一个return返回的一个结果
+
+            函数的调用是需要手动去执行的，无脑执行，不管你对应的值是否发生改变，
+            都会去执行对应的函数，这样会比较浪费资源
+        */ 
+    </script>
+</body>
+
+</html>

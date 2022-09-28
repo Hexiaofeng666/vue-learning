@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jQuery-3.6.0.min.js"></script>
+</head>
+<body>
+    
+    <script>
+
+        const zhangsan = {
+            name: '张三',
+            age: 23
+        }
+        const obj = {
+            height: 170,
+            sex: '男'
+        }
+        // 将这两个对象合并到一起变为一个对象，至少使用3种方法
+
+        // 1. for 循环
+        // for (const key in obj) {
+        //     zhangsan[key] = obj[key]
+        // }
+        // console.log(zhangsan);
+
+        // 2. $.extend()
+        // const newZhangSan = $.extend(zhangsan, obj)
+        // console.log(newZhangSan);
+
+        // 3. es6
+        // console.log(Object.assign(zhangsan, obj));
+
+        // 4. es7
+        // ... 展开符
+        console.log({...zhangsan,...obj});
+
+        
+        const arr = [1,2,3,4,5,6,7,8]
+
+        console.log(...arr);
+
+        function sum(q,w,e,r,t,y,u,i){
+            console.log(q + w + e + r + t + y + u + i);
+        }
+        sum(...arr)
+
+    </script>
+</body>
+</html>

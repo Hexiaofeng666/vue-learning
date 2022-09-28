@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+     <h1>{{ msg }}</h1>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        setup(props) {
+            const { ref, onBeforeMount,onMounted, onRenderTracked, onRenderTriggered } = Vue
+
+            let msg = ref('老吴拜拜')
+
+            // 新用法，先导入再使用。
+            // 在组件内容被渲染到页面之前调用
+            onBeforeMount(()=>{
+                console.log('onBeforeMount');
+            })
+            onMounted(()=>{
+                console.log('onMounted');
+            })
+
+            // 每次渲染后重新调用
+            onRenderTracked(()=>{
+                console.log('onRenderTracked');
+            })
+            // 每次触发页面重新渲染时自动执行
+            onRenderTriggered(()=>{
+                console.log('onRenderTriggered');
+            })
+
+            return {
+                msg
+            }
+        },
+        created(){},
+        methods:{},
+        computed:{},
+    })
+    app.mount('#app')
+</script>
+</html>

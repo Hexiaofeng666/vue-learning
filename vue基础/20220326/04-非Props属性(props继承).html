@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src='vue3.js'></script>
+</head>
+<body>
+<div id='app'>
+    <!-- 可以给整个组件添加事件 -->
+     <com :style="colorRed" @click="comClick"></com>
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                colorRed: 'color: red'
+            }
+        },
+        created(){},
+        methods:{
+            comClick(){
+                alert('点击成功')
+            }
+        },
+        computed:{},
+    })
+
+    app.component('com', {
+        // 设置禁止继承
+        // inheritAttrs: false,
+        // 多个根节点属性继承
+        template: `
+            <div>
+                <h1> 你好 Vue3 </h1>
+                <h1> 你好 Vue3 </h1>
+            </div>
+            <div v-bind="$attrs">
+                <h1> 你好 Vue3 </h1>
+                <h1> 你好 Vue3 </h1>
+            </div>
+        `,
+        methods: {
+            
+        }
+    })
+
+    app.mount('#app')
+</script>
+</html>
